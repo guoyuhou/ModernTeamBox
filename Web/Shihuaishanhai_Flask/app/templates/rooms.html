@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>我们的房间</h1>
+    {% for room in rooms %}
+        <div class="room">
+            <h2>{{ room.name }}</h2>
+            <p>{{ room.description }}</p>
+            <p>价格: ¥{{ room.price }}/晚</p>
+            <p>容纳人数: {{ room.capacity }}人</p>
+        </div>
+    {% endfor %}
+{% endblock %}
+

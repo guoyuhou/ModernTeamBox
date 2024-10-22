@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}加入我们 | ModernY{% endblock %}
+
+{% block content %}
+<section class="hero careers-hero parallax-section">
+    <div class="hero-content">
+        <h1 class="animate-on-scroll">加入ModernY</h1>
+        <p class="animate-on-scroll">与我们一起探索未来，创造非凡</p>
+    </div>
+</section>
+
+<section class="why-join-us content-section">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">为什么选择ModernY？</h2>
+        <div class="benefits-grid">
+            <div class="benefit-item animate-on-scroll">
+                <i class="fas fa-rocket"></i>
+                <h3>充满挑战的工作环境</h3>
+                <p>在这里，你将有机会参与最前沿的技术项目，不断挑战自我，突破极限。</p>
+            </div>
+            <div class="benefit-item animate-on-scroll">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>持续学习和成长</h3>
+                <p>我们提供丰富的培训资源和发展机会，帮助你不断提升专业技能。</p>
+            </div>
+            <div class="benefit-item animate-on-scroll">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>富有竞争力的薪酬福利</h3>
+                <p>我们提供行业领先的薪酬待遇，以及全面的福利保障。</p>
+            </div>
+            <div class="benefit-item animate-on-scroll">
+                <i class="fas fa-clock"></i>
+                <h3>灵活的工作安排</h3>
+                <p>我们尊重员工的工作-生活平衡，提供弹性工作时间和远程工作选项。</p>
+            </div>
+            <div class="benefit-item animate-on-scroll">
+                <i class="fas fa-users"></i>
+                <h3>友好、互助的团队氛围</h3>
+                <p>在ModernY，你将加入一个充满激情和创造力的团队，共同成长，共创佳绩。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="open-positions content-section">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">当前职位</h2>
+        <div class="position-list">
+            <div class="position-item animate-on-scroll">
+                <h3>高级Web开发工程师</h3>
+                <p>我们正在寻找有经验的Web开发工程师加入我们的团队，负责设计和开发创新的Web应用。</p>
+                <ul class="position-details">
+                    <li><i class="fas fa-map-marker-alt"></i> 上海</li>
+                    <li><i class="fas fa-clock"></i> 全职</li>
+                    <li><i class="fas fa-calendar-alt"></i> 立即</li>
+                </ul>
+                <a href="#" class="btn btn-outline">立即申请</a>
+            </div>
+            <div class="position-item animate-on-scroll">
+                <h3>AI研究员</h3>
+                <p>加入我们的AI研究团队，探索人工智能的前沿技术，并将其应用到实际产品中。</p>
+                <ul class="position-details">
+                    <li><i class="fas fa-map-marker-alt"></i> 北京</li>
+                    <li><i class="fas fa-clock"></i> 全职</li>
+                    <li><i class="fas fa-calendar-alt"></i> 立即</li>
+                </ul>
+                <a href="#" class="btn btn-outline">立即申请</a>
+            </div>
+            <div class="position-item animate-on-scroll">
+                <h3>UI/UX设计师</h3>
+                <p>我们需要富有创造力的设计师，为我们的产品打造直观、美观的用户界面。</p>
+                <ul class="position-details">
+                    <li><i class="fas fa-map-marker-alt"></i> 深圳</li>
+                    <li><i class="fas fa-clock"></i> 全职</li>
+                    <li><i class="fas fa-calendar-alt"></i> 立即</li>
+                </ul>
+                <a href="#" class="btn btn-outline">立即申请</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="employee-testimonials content-section">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">员工心声</h2>
+        <div class="testimonial-slider">
+            <div class="testimonial-item">
+                <img src="{% static 'images/employees/employee1.jpg' %}" alt="员工1" class="employee-photo">
+                <p>"在ModernY，我每天都能接触到最新的技术，与优秀的同事一起工作，这里的氛围让我感到非常兴奋和充实。"</p>
+                <cite>- 李明，高级开发工程师</cite>
+            </div>
+            <div class="testimonial-item">
+                <img src="{% static 'images/employees/employee2.jpg' %}" alt="员工2" class="employee-photo">
+                <p>"ModernY不仅提供了极具竞争力的薪酬，更重要的是这里有无限的学习和成长机会。我感觉自己每天都在进步。"</p>
+                <cite>- 张婷，产品经理</cite>
+            </div>
+            <div class="testimonial-item">
+                <img src="{% static 'images/employees/employee3.jpg' %}" alt="员工3" class="employee-photo">
+                <p>"作为一名设计师，我很欣赏ModernY对创新和美学的追求。这里的工作既有挑战性，又能让我充分发挥创意。"</p>
+                <cite>- 王强，UI/UX设计师</cite>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section parallax-section">
+    <div class="container">
+        <h2 class="animate-on-scroll">准备好加入我们了吗？</h2>
+        <p class="animate-on-scroll">一起创造未来，成为ModernY的一员！</p>
+        <a href="#" class="btn btn-glow animate-on-scroll">发送简历</a>
+    </div>
+</section>
+{% endblock %}

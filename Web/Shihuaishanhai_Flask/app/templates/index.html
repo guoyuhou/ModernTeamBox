@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .hero {
+        background-image: url('https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80');
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero h1 {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: fadeInUp 1s ease-out;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .hero p {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        animation: fadeInUp 1s ease-out 0.5s both;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .cta-button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background-color: var(--accent-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        animation: fadeInUp 1s ease-out 1s both;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .cta-button:hover {
+        background-color: #e55c5c;
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .features {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin: 4rem auto;
+        max-width: 1200px;
+    }
+
+    .feature {
+        flex-basis: calc(33.333% - 2rem);
+        margin: 1rem;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .feature:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature i {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .about-section {
+        background-color: var(--secondary-color);
+        padding: 4rem 0;
+        text-align: center;
+    }
+
+    .about-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin: 4rem auto;
+        max-width: 1200px;
+    }
+
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.1);
+    }
+
+    .testimonials {
+        background-color: #f9f9f9;
+        padding: 4rem 0;
+        text-align: center;
+    }
+
+    .testimonial {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .testimonial:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .scroll-reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .scroll-reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .floating {
+        animation: float 3s ease-in-out infinite;
+    }
+</style>
+
+<div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <h1 class="floating">释怀山海民宿</h1>
+        <p>在山与海的交汇处，找寻内心的宁静</p>
+        <a href="{{ url_for('rooms') }}" class="cta-button">立即预订您的静谧时光</a>
+    </div>
+</div>
+
+<section class="features">
+    <div class="feature scroll-reveal">
+        <i class="fas fa-mountain"></i>
+        <h2>山景房</h2>
+        <p>俯瞰壮丽山峦，感受大自然的雄伟与静谧</p>
+    </div>
+    <div class="feature scroll-reveal">
+        <i class="fas fa-water"></i>
+        <h2>海景房</h2>
+        <p>聆听海浪低语，欣赏日出日落的绚丽变幻</p>
+    </div>
+    <div class="feature scroll-reveal">
+        <i class="fas fa-utensils"></i>
+        <h2>当地美食</h2>
+        <p>品尝新鲜海鲜与山珍，体验本地独特饮食文化</p>
+    </div>
+</section>
+
+<section class="about-section scroll-reveal">
+    <div class="about-content">
+        <h2>关于释怀山海民宿</h2>
+        <p>坐落于山海之间，释怀山海民宿为您提供一个远离喧嚣、回归自然的宁静空间。我们致力于为每位客人创造难忘的住宿体验，让您在这里找到内心的平静与释怀。</p>
+    </div>
+</section>
+
+<div class="gallery">
+    <div class="gallery-item scroll-reveal">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="民宿外观">
+        <div class="gallery-overlay">点击查看大图</div>
+    </div>
+    <div class="gallery-item scroll-reveal">
+        <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80" alt="客房内部">
+        <div class="gallery-overlay">点击查看大图</div>
+    </div>
+    <div class="gallery-item scroll-reveal">
+        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="餐厅">
+        <div class="gallery-overlay">点击查看大图</div>
+    </div>
+    <div class="gallery-item scroll-reveal">
+        <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="周边景色">
+        <div class="gallery-overlay">点击查看大图</div>
+    </div>
+</div>
+
+<section class="testimonials">
+    <h2 class="scroll-reveal">客人评价</h2>
+    <div class="testimonial scroll-reveal">
+        <p class="testimonial-text">"在释怀山海民宿的日子是我最难忘的假期。清晨被海浪声唤醒，晚上伴着山风入睡，真是一种享受。"</p>
+        <p class="testimonial-author">- 张先生，北京</p>
+    </div>
+    <div class="testimonial scroll-reveal">
+        <p class="testimonial-text">"服务周到，环境优美，最重要的是能真正感受到内心的平静。强烈推荐给需要放松的都市人。"</p>
+        <p class="testimonial-author">- 李女士，上海</p>
+    </div>
+</section>
+
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+<script>
+    // 滚动显示动画
+    function revealOnScroll() {
+        var reveals = document.querySelectorAll('.scroll-reveal');
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 150;
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add('revealed');
+            }
+        }
+    }
+
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();  // 初始检查
+
+    // 图片画廊点击放大
+    var galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+            var img = this.querySelector('img');
+            var modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+            modal.style.display = 'flex';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            modal.style.zIndex = '1000';
+
+            var modalImg = document.createElement('img');
+            modalImg.src = img.src;
+            modalImg.style.maxWidth = '90%';
+            modalImg.style.maxHeight = '90%';
+            modalImg.style.objectFit = 'contain';
+
+            modal.appendChild(modalImg);
+            document.body.appendChild(modal);
+
+            modal.addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+        });
+    });
+</script>
+{% endblock %}

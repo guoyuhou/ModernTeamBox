@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ModernY - 探索未来科技，引领创新。我们提供Web设计、Streamlit应用开发、小程序设计和AI+产品构建服务。">
+    <title>{% block title %}ModernY{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+</head>
+<body class="site-background">
+    <header class="site-header">
+        <div class="container">
+            <nav class="main-nav">
+                <a href="{% url 'home' %}" class="logo">
+                    <img src="{% static 'images\rotate.png' %}" alt="ModernY Logo">
+                    <span class="logo-text">ModernY</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">首页</a></li>
+                    <li><a href="{% url 'about' %}">关于我们</a></li>
+                    <li><a href="{% url 'services' %}">服务</a></li>
+                    <li><a href="{% url 'products' %}">产品</a></li>
+                    <li><a href="{% url 'contact' %}">联系我们</a></li>
+                </ul>
+                <button class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_1280.png" alt="ModernY Logo">
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="{% url 'privacy' %}">隐私政策</a></li>
+                        <li><a href="{% url 'terms' %}">使用条款</a></li>
+                        <li><a href="{% url 'careers' %}">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="social-links">
+                    <a href="#" aria-label="WeChat"><i class="fab fa-weixin"></i></a>
+                    <a href="#" aria-label="Weibo"><i class="fab fa-weibo"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 ModernY. 探索未来，引领创新。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

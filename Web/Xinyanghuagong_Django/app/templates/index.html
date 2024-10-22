@@ -1,0 +1,497 @@
+{% extends 'base.html' %}
+
+{% block title %}山东鑫阳有限公司 - 创新化工解决方案的领导者{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+<style>
+    :root {
+        --primary-color: #0056b3;
+        --secondary-color: #00a86b;
+        --text-color: #333;
+        --bg-color: #f4f7f9;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        color: var(--text-color);
+        background: white;
+    }
+
+    .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+    .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0,86,179,0.7) 0%, rgba(0,168,107,0.7) 100%);
+    z-index: 2;
+}
+
+    .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1518623489648-a173ef7824f3') no-repeat center center;
+    background-size: cover;
+    z-index: 1;
+}
+
+    .hero-content {
+        position: relative;
+        z-index: 3;
+        text-align: left;
+        max-width: 600px;
+        padding: 2rem 4rem;
+    }
+
+
+    .hero-content h1,
+    .hero-content h2,
+    .hero-content p,
+    .hero-content .cta-button {
+        opacity: 1 !important; /* 强制显示 */
+        transform: none !important; /* 移除任何变换 */
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+        color: #0056b3;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero-content h2 {
+        font-size: 2rem;
+        color: #00a86b;
+        margin-bottom: 1rem;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        color: #333;
+        margin-bottom: 1.5rem;
+    }
+
+    .cta-button {
+        display: inline-block;
+        background-color: #00a86b;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .section {
+        background-color: rgba(255, 255, 255, 0.9);
+        margin: 2rem 0;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 5rem 2rem;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .section-header p {
+        font-size: 1.2rem;
+        color: #666;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .products {
+        background-color: white;
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .product-card {
+        background-color: var(--bg-color);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    .product-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .product-info {
+        padding: 1.5rem;
+    }
+
+    .product-info h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-info p {
+        font-size: 1rem;
+        color: #666;
+    }
+
+    .innovations {
+        background-color: var(--bg-color);
+    }
+
+    .innovation-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .innovation-item {
+        flex-basis: calc(33.333% - 2rem);
+        margin-bottom: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .innovation-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .innovation-icon {
+        font-size: 3rem;
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+
+    .innovation-item h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .innovation-item p {
+        font-size: 1rem;
+        color: #666;
+    }
+
+    .sustainability {
+        background-color: white;
+    }
+
+    .sustainability-content {
+        display: flex;
+        align-items: center;
+        gap: 4rem;
+    }
+    
+    .sustainability-image { 
+        flex: 1;
+        height: 400px;
+        background: url('https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center;        background-size: cover;
+        border-radius: 10px;
+    }
+
+    .sustainability-text {
+        flex: 1;
+    }
+
+    .sustainability-text h3 {
+        font-size: 2rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .sustainability-text p {
+        font-size: 1.1rem;
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+
+    .stats {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1587613865763-4b8b0d19e8ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center;        background-size: cover;
+        color: white;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        font-size: 1.2rem;
+    }
+
+    .scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 2rem;
+        color: #0056b3;
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-30px);
+        }
+        60% {
+            transform: translateY(-15px);
+        }
+    }
+
+    .hero-content h1,
+    .hero-content p,
+    .hero-content .cta-button {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    
+    #molecule-container {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
+    }
+
+    .hero-content {
+        z-index: 2;
+        text-align: left;
+        max-width: 600px;
+        padding: 0 4rem;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        color: #ffffff;
+        font-weight: 700;
+        line-height: 1.2;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero-content h2 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        color: #ffffff;
+        font-weight: 700;
+        line-height: 1.2;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero-content p {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        color: #f0f0f0;
+        line-height: 1.6;
+    }
+
+    .hero-content h1,
+    .hero-content h2,
+    .hero-content p,
+    .hero-content .cta-button {
+    }
+
+    @media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+        .hero-content h2 {
+            font-size: 2rem;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+        }
+    }
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-background" data-aos="fade-right" data-aos-duration="1000"></div>
+    <div class="hero-overlay" data-aos="fade-right" data-aos-duration="1000"></div>
+    <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
+        <h1>山东鑫阳有限公司</h1>
+        <h2>创新化工<br>引领未来</h2>
+        <p>为世界提供先进的化工解决方案</p>
+        <a href="#products" class="cta-button" data-aos="fade-right" data-aos-duration="1000">探索我们的产品</a>
+    </div>
+</section>
+
+<section id="products" class="section products">
+    <div class="section-header" data-aos="fade-up">
+        <h2>我们的产品</h2>
+        <p>山东鑫阳有限公司提供高品质、多样化的化工产品，满足各行业需求</p>
+    </div>
+    <div class="product-grid">
+        <div class="product-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1616661317361-900917ae4f7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>            <div class="product-info">
+                <h3>高性能聚合物</h3>
+                <p>适用于汽车、建筑等多个行业的先进材料</p>
+            </div>
+        </div>
+        <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>            <div class="product-info">
+                <h3>特种化学品</h3>
+                <p>为工业生产提供关键的化学解决方案</p>
+            </div>
+        </div>
+        <div class="product-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80');"></div>            <div class="product-info">
+                <h3>环保涂料</h3>
+                <p>低VOC、高性能的绿色涂料产品</p>
+            </div>
+        </div>
+        <div class="product-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');"></div>            <div class="product-info">
+                <h3>农用化学品</h3>
+                <p>提高农作物产量和质量的创新农化产品</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section innovations">
+    <div class="section-header" data-aos="fade-up">
+        <h2>技术创新</h2>
+        <p>我们不断投资研发，推动化工技术的前沿发展</p>
+    </div>
+    <div class="innovation-list">
+        <div class="innovation-item" data-aos="zoom-in" data-aos-delay="100">
+            <div class="innovation-icon"><i class="fas fa-atom"></i></div>
+            <h3>纳米技术</h3>
+            <p>应用纳米技术开发新一代高性能材料</p>
+        </div>
+        <div class="innovation-item" data-aos="zoom-in" data-aos-delay="200">
+            <div class="innovation-icon"><i class="fas fa-recycle"></i></div>
+            <h3>绿色化学</h3>
+            <p>开发环境友好型化学工艺和产品</p>
+        </div>
+        <div class="innovation-item" data-aos="zoom-in" data-aos-delay="300">
+            <div class="innovation-icon"><i class="fas fa-microchip"></i></div>
+            <h3>智能制造</h3>
+            <p>利用人工智能和物联网优化生产流程</p>
+        </div>
+    </div>
+</section>
+
+<section class="section sustainability">
+    <div class="section-header" data-aos="fade-up">
+        <h2>可持续发展</h2>
+        <p>我们致力于在创造经济价值的同时，实现环境和社会的可持续发展</p>
+    </div>
+    <div class="sustainability-content">
+        <div class="sustainability-image" data-aos="fade-right"></div>
+        <div class="sustainability-text" data-aos="fade-left">
+            <h3>我们的承诺</h3>
+            <p>山东鑫阳有限公司坚持可持续发展战略，通过创新技术和负责任的经营实践，减少环境足迹，提高资源利用效率，为建设更美好的世界贡献力量。</p>
+            <p>我们的目标是到2030年实现碳中和，并将可再生能源使用比例提高到50%。</p>
+            <a href="{% url 'about' %}" class="cta-button">了解更多</a>
+        </div>
+    </div>
+</section>
+
+<section class="section stats">
+    <div class="section-header" data-aos="fade-up">
+        <h2 style="color: white;">公司数据</h2>
+        <p>山东鑫阳有限公司的成就和影响力</p>
+    </div>
+    <div class="stats-grid">
+        <div class="stat-item" data-aos="flip-left" data-aos-delay="100">
+            <div class="stat-number" data-count="500">0</div>
+            <div class="stat-label">合作伙伴</div>
+        </div>
+        <div class="stat-item" data-aos="flip-left" data-aos-delay="200">
+            <div class="stat-number" data-count="50">0</div>
+            <div class="stat-label">专利技术</div>
+        </div>
+        <div class="stat-item" data-aos="flip-left" data-aos-delay="300">
+            <div class="stat-number" data-count="20">0</div>
+            <div class="stat-label">年行业经验</div>
+        </div>
+        <div class="stat-item" data-aos="flip-left" data-aos-delay="400">
+            <div class="stat-number" data-count="100">0</div>
+            <div class="stat-label">国际市场覆盖</div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    
+
+    window.addEventListener('load', function() {
+    // 初始化 AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+
+    // 为产品卡片添加 AOS 属性
+    document.querySelectorAll('.product-card').forEach((card, index) => {
+        card.setAttribute('data-aos', 'fade-up');
+        card.setAttribute('data-aos-delay', (index * 100).toString());
+    });
+
+    // 刷新 AOS
+    AOS.refresh();
+
+    // 其他初始化代码...
+});
+
+</script>
+{% endblock %}

@@ -1,0 +1,141 @@
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3 class="school-name">山东大学附属中学实验学校</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 地址：山东省济南市历下区</p>
+                <p><i class="fas fa-phone"></i> 电话：123-4567-8900</p>
+                <p><i class="fas fa-envelope"></i> 邮箱：info@sduafs.edu.cn</p>
+            </div>
+            <div class="footer-links">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="{% url 'index' %}" class="footer-link">首页</a></li>
+                    <li><a href="{% url 'school_overview' %}" class="footer-link">学校概况</a></li>
+                    <li><a href="{% url 'admission_info' %}" class="footer-link">招生信息</a></li>
+                    <li><a href="#" class="footer-link">联系我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>关注我们</h3>
+                <a href="#" class="social-icon weibo"><i class="fab fa-weibo"></i></a>
+                <a href="#" class="social-icon wechat"><i class="fab fa-weixin"></i></a>
+                <a href="#" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 山东大学附属中学实验学校. 保留所有权利.</p>
+        </div>
+    </div>
+</footer>
+
+<style>
+.footer {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 50px 0;
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.footer-info, .footer-links, .footer-social {
+    flex: 1;
+    margin: 0 15px;
+}
+
+.school-name {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #3498db;
+}
+
+.footer-info p {
+    margin: 5px 0;
+}
+
+.footer-info i {
+    margin-right: 10px;
+    color: #3498db;
+}
+
+.footer-links ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-link {
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #3498db;
+}
+
+.social-icon {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 24px;
+    color: #ecf0f1;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: scale(1.2);
+}
+
+.weibo:hover { color: #e6162d; }
+.wechat:hover { color: #7bb32e; }
+.tiktok:hover { color: #69c9d0; }
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #34495e;
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+    }
+    
+    .footer-info, .footer-links, .footer-social {
+        margin-bottom: 30px;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const footerLinks = document.querySelectorAll('.footer-link');
+    
+    footerLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.paddingLeft = '10px';
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.style.paddingLeft = '0';
+        });
+    });
+    
+    const socialIcons = document.querySelectorAll('.social-icon');
+    
+    socialIcons.forEach(icon => {
+        icon.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.2) rotate(10deg)';
+        });
+        
+        icon.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1) rotate(0deg)';
+        });
+    });
+});
+</script>

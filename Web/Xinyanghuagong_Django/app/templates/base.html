@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>山东鑫阳化工 - {% block title %}{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a5f7a;
+            --secondary-color: #57c5b6;
+            --accent-color: #159895;
+            --text-color: #333;
+            --bg-color: #f9f9f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #ffffff;
+        }
+
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px - 100px);
+            position: relative;
+            z-index: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-toggle {
+            display: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .nav-item {
+            margin-left: 1.5rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+
+        .footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            margin-right: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p, .footer-section ul {
+            margin-bottom: 1rem;
+        }
+
+        .social-icons {
+            list-style-type: none;
+            display: flex;
+        }
+
+        .social-icons li {
+            margin-right: 1rem;
+        }
+
+        .social-icons a {
+            color: #fff;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--secondary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                flex-direction: column;
+                background-color: #fff;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-item {
+                margin: 1.5rem 0;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="{% url 'index' %}" class="logo">山东鑫阳化工</a>
+            <nav>
+                <div class="nav-toggle" id="navToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">首页</a></li>
+                    <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">关于我们</a></li>
+                    <li class="nav-item"><a href="{% url 'products' %}" class="nav-link">产品与服务</a></li>
+                    <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">联系我们</a></li>
+                    <li class="nav-item"><a href="{% url 'cooperation' %}" class="nav-link">合作案例</a></li>
+                    <li class="nav-item"><a href="{% url 'certifications' %}" class="nav-link">认证与可持续发展</a></li>
+                    <li class="nav-item"><a href="{% url 'company_data' %}" class="nav-link">公司数据</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>山东鑫阳化工是一家领先的化工企业，致力于为客户提供高质量、创新的化工解决方案。</p>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p>地址：山东省济南市高新区科技园路1000号</p>
+                <p>电话：+86 531 12345678</p>
+                <p>邮箱：info@xinyang-chem.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>关注我们</h3>
+                <ul class="social-icons">
+                    <li><a href="#"><i class="fab fa-weixin"></i></a></li>
+                    <li><a href="#"><i class="fab fa-weibo"></i></a></li>
+                    <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 山东鑫阳化工. 保留所有权利。</p>
+        </div>
+    </footer>
+    <script>
+        // 滚动时改变导航栏样式
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            header.classList.toggle('scrolled', window.scrollY > 0);
+        });
+
+        // 移动端菜单切换
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

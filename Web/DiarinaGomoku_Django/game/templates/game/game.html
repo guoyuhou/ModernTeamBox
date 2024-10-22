@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .game-container {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        color: #fff;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .game-board {
+        display: grid;
+        grid-template-columns: repeat(15, 1fr);
+        gap: 1px;
+        background-color: #deb887;
+        padding: 8px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        max-width: 450px;
+        margin: 0 auto;
+    }
+
+    .cell {
+        aspect-ratio: 1;
+        background-color: #deb887;
+        border: 1px solid #8b4513;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .cell:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .piece {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        height: 90%;
+        border-radius: 50%;
+    }
+
+    .piece.black {
+        background-color: #000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .piece.white {
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .game-info, .game-result {
+        margin-top: 1.5rem;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    #current-player {
+        font-weight: bold;
+        color: #ffd700;
+    }
+
+    .game-result {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    .game-result h3 {
+        color: #ffd700;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="game-container">
+    <h2>五子棋游戏 - 房间 {{ game.id }}</h2>
+    <div id="game-board" class="game-board"></div>
+    <div id="game-info" class="game-info">
+        <p>当前玩家: <span id="current-player">黑子</span></p>
+    </div>
+    <div id="game-result" class="game-result" style="display: none;">
+        <h3>游戏结束</h3>
+        <p>胜利者: <span id="winner"></span></p>
+        <p>失败者: <span id="loser"></span></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/game_logic.js' %}"></script>
+<script>
+    const gameId = {{ game.id }};
+    const currentPlayer = '{{ request.user.username }}';
+    const playerColor = '{% if request.user == game.black_player %}black{% else %}white{% endif %}';
+
+    const gameSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/game/' + gameId + '/'
+    );
+
+    gameSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        if (data.action === 'move') {
+            makeMove(data.row, data.col, data.player);
+            if (data.is_winner) {
+                endGame(data.winner_username, data.loser_username);
+            } else {
+                updateCurrentPlayer(data.player === 'black' ? 'white' : 'black');
+            }
+        }
+    };
+
+    function makeMove(row, col, player) {
+        const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+        if (cell && !cell.hasChildNodes()) {
+            const piece = document.createElement('div');
+            piece.classList.add('piece', player);
+            cell.appendChild(piece);
+        }
+    }
+
+    function updateCurrentPlayer(player) {
+        document.getElementById('current-player').textContent = player === 'black' ? '黑子' : '白子';
+    }
+
+    function endGame(winnerUsername, loserUsername) {
+        document.getElementById('game-info').style.display = 'none';
+        document.getElementById('game-result').style.display = 'block';
+        document.getElementById('winner').textContent = winnerUsername;
+        document.getElementById('loser').textContent = loserUsername;
+        document.getElementById('game-board').removeEventListener('click', boardClickHandler);
+    }
+
+    function boardClickHandler(e) {
+        if (e.target.classList.contains('cell') && !e.target.hasChildNodes()) {
+            const row = e.target.dataset.row;
+            const col = e.target.dataset.col;
+            gameSocket.send(JSON.stringify({
+                'action': 'move',
+                'row': row,
+                'col': col,
+                'player': playerColor
+            }));
+        }
+    }
+
+    document.getElementById('game-board').addEventListener('click', boardClickHandler);
+
+    function initializeBoard() {
+        const board = document.getElementById('game-board');
+        for (let i = 0; i < 15; i++) {
+            for (let j = 0; j < 15; j++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.dataset.row = i;
+                cell.dataset.col = j;
+                board.appendChild(cell);
+            }
+        }
+    }
+
+    initializeBoard();
+</script>
+{% endblock %}

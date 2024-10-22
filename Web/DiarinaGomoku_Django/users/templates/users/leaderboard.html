@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .leaderboard-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .leaderboard-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .leaderboard-title {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .leaderboard-subtitle {
+        font-size: 1.2rem;
+        color: var(--text-color);
+        opacity: 0.8;
+    }
+
+    .leaderboard-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 15px;
+    }
+
+    .leaderboard-table th {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 1rem;
+        text-align: left;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+
+    .leaderboard-table td {
+        background-color: white;
+        padding: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .leaderboard-table tr {
+        transform: scale(1);
+        transition: all 0.3s ease;
+    }
+
+    .leaderboard-table tr:hover {
+        transform: scale(1.02);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .rank {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: var(--primary-color);
+    }
+
+    .username {
+        font-weight: bold;
+        color: var(--text-color);
+    }
+
+    .stats {
+        color: var(--text-color);
+        opacity: 0.8;
+    }
+
+    .win-rate {
+        font-weight: bold;
+        color: var(--secondary-color);
+    }
+
+    .top-3 .rank {
+        font-size: 1.5rem;
+    }
+
+    .rank-1 { color: gold; }
+    .rank-2 { color: silver; }
+    .rank-3 { color: #cd7f32; }
+
+    .medal {
+        font-size: 1.5rem;
+        margin-right: 0.5rem;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .pagination a {
+        padding: 0.5rem 1rem;
+        margin: 0 0.25rem;
+        background-color: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .pagination a:hover {
+        background-color: var(--secondary-color);
+    }
+
+    @media (max-width: 768px) {
+        .leaderboard-table {
+            font-size: 0.9rem;
+        }
+
+        .leaderboard-table th,
+        .leaderboard-table td {
+            padding: 0.75rem 0.5rem;
+        }
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="leaderboard-container">
+    <div class="leaderboard-header">
+        <h2 class="leaderboard-title">五子棋英雄榜</h2>
+        <p class="leaderboard-subtitle">谁将成为最强棋手？</p>
+    </div>
+    <table class="leaderboard-table">
+        <thead>
+            <tr>
+                <th>排名</th>
+                <th>用户名</th>
+                <th>总场次</th>
+                <th>胜利</th>
+                <th>失败</th>
+                <th>胜率</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in profiles %}
+            <tr class="{% if forloop.counter <= 3 %}top-3{% endif %}">
+                <td class="rank rank-{{ forloop.counter }}">
+                    {% if forloop.counter == 1 %}
+                        <span class="medal">🥇</span>
+                    {% elif forloop.counter == 2 %}
+                        <span class="medal">🥈</span>
+                    {% elif forloop.counter == 3 %}
+                        <span class="medal">🥉</span>
+                    {% endif %}
+                    <span class="rank-number">{{ forloop.counter }}</span>
+                </td>
+                <td class="username">{{ profile.user.username }}</td>
+                <td class="stats">{{ profile.total_games }}</td>
+                <td class="stats">{{ profile.wins }}</td>
+                <td class="stats">{{ profile.losses }}</td>
+                <td class="win-rate">{{ profile.win_rate|floatformat:2 }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        <a href="#" class="prev-page">上一页</a>
+        <a href="#" class="next-page">下一页</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 标题动画
+        gsap.from(".leaderboard-title", {
+            opacity: 0,
+            y: -50,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        gsap.from(".leaderboard-subtitle", {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            delay: 0.3,
+            ease: "power3.out"
+        });
+
+        // 表格行动画
+        gsap.from("tr", {
+            opacity: 0,
+            y: 30,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: "power2.out"
+        });
+
+        // 排名数字增长动画
+        gsap.from(".rank-number", {
+            textContent: 0,
+            duration: 2,
+            ease: "power2.out",
+            snap: { textContent: 1 },
+            stagger: {
+                each: 0.2,
+                onUpdate: function() {
+                    this.targets()[0].innerHTML = Math.ceil(this.targets()[0].textContent);
+                },
+            }
+        });
+
+        // 胜率数字增长动画
+        gsap.from(".win-rate", {
+            textContent: 0,
+            duration: 2,
+            ease: "power2.out",
+            snap: { textContent: 1 },
+            stagger: {
+                each: 0.2,
+                onUpdate: function() {
+                    this.targets()[0].innerHTML = parseFloat(this.targets()[0].textContent).toFixed(2) + '%';
+                },
+            }
+        });
+
+        // 鼠标悬停效果
+        const rows = document.querySelectorAll('tr');
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                gsap.to(row, {
+                    backgroundColor: '#f0f0f0',
+                    duration: 0.3
+                });
+            });
+            row.addEventListener('mouseleave', () => {
+                gsap.to(row, {
+                    backgroundColor: 'white',
+                    duration: 0.3
+                });
+            });
+        });
+    });
+</script>
+{% endblock extra_js %}

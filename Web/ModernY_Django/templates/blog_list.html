@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}博客 | ModernY{% endblock %}
+
+{% block content %}
+<section class="blog-hero">
+    <h1>ModernY博客</h1>
+    <p>探索最新的技术趋势和见解</p>
+</section>
+
+<section class="blog-list">
+    {% for post in posts %}
+    <article class="blog-post animate-on-scroll">
+        <h2><a href="{% url 'blog_detail' post.id %}">{{ post.title }}</a></h2>
+        <p class="post-meta">作者：{{ post.author.username }} | 发布日期：{{ post.created_at|date:"Y-m-d" }}</p>
+        <p class="post-excerpt">{{ post.content|truncatewords:30 }}</p>
+        <a href="{% url 'blog_detail' post.id %}" class="read-more">阅读更多</a>
+    </article>
+    {% empty %}
+    <p>暂无博客文章</p>
+    {% endfor %}
+</section>
+{% endblock %}

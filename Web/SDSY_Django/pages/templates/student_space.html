@@ -1,0 +1,437 @@
+{% extends "base.html" %}
+
+{% block title %}学生空间 - 山东大学附属中学实验学校{% endblock %}
+
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #50c878;
+        --accent-color: #ff6b6b;
+        --bg-color: #f0f4f8;
+        --text-color: #333;
+        --white: #ffffff;
+    }
+
+    body {
+        font-family: 'Poppins', 'Noto Sans SC', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        overflow-x: hidden;
+    }
+
+    .student-space {
+        padding: 0;
+    }
+
+    .hero-section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        text-align: center;
+        z-index: 2;
+        color: var(--white);
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        opacity: 0.9;
+    }
+
+    .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.2;
+        z-index: 1;
+    }
+
+    .section {
+        padding: 100px 0;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 50px;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 3px;
+        background-color: var(--accent-color);
+        margin: 20px auto 0;
+    }
+
+    .clubs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+    }
+
+    .club-card {
+        background-color: var(--white);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+    }
+
+    .club-card:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .club-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        transition: all 0.5s ease;
+    }
+
+    .club-card:hover .club-image {
+        transform: scale(1.1);
+    }
+
+    .club-info {
+        padding: 20px;
+    }
+
+    .club-name {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .club-description {
+        color: var(--text-color);
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .activities-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 50px;
+    }
+
+    .activity-item {
+        width: calc(50% - 15px);
+        background-color: var(--white);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .activity-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .activity-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .activity-content {
+        padding: 20px;
+    }
+
+    .activity-title {
+        font-size: 1.3rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .activity-description {
+        color: var(--text-color);
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .news-section {
+        background-color: var(--white);
+        padding: 100px 0;
+    }
+
+    .news-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .news-item {
+        background-color: var(--bg-color);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .news-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .news-date {
+        font-size: 0.9rem;
+        color: var(--secondary-color);
+        margin-bottom: 10px;
+    }
+
+    .news-title {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .news-excerpt {
+        color: var(--text-color);
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+
+    .scroll-to-top:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .custom-cursor {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--primary-color);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition: all 0.3s ease;
+        transform: translate(-50%, -50%);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="student-space">
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">学生空间</h1>
+            <p class="hero-subtitle">探索、成长、创新</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">学习天地</h2>
+            <div class="activities-list">
+                <div class="activity-item">
+                    <div class="activity-image" style="background-image: url('https://images.unsplash.com/photo-1530968033775-2c92736b131e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="activity-content">
+                        <h3 class="activity-title">全环境立德树人劳动篇——农场里定植甜蜜红薯</h3>
+                        <p class="activity-description">学生们在农场里亲手种植红薯，体验劳动的乐趣，培养责任感和团队合作精神。</p>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-image" style="background-image: url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="activity-content">
+                        <h3 class="activity-title">小学部学科期末测评活动成果展</h3>
+                        <p class="activity-description">展示小学部学生在各个学科的学习成果，激发学习兴趣，促进全面发展。</p>
+                    </div>
+                </div>
+                <!-- Add more activity items here -->
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">德育活动</h2>
+            <div class="clubs-grid">
+                {% for club in content.clubs %}
+                    <div class="club-card">
+                        <div class="club-image" style="background-image: url('');"></div>
+                        <div class="club-info">
+                            <h3 class="club-name">{{ club }}</h3>
+                            <p class="club-description">加入{{ club }}，探索你的兴趣爱好，培养品德修养！</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section">
+        <div class="container news-container">
+            <h2 class="section-title">热门资讯</h2>
+            <div class="news-list">
+                <div class="news-item">
+                    <div class="news-date">2023年5月15日</div>
+                    <h3 class="news-title">新征程，向未来——高一年级期末表彰</h3>
+                    <p class="news-excerpt">高一年级举行期末表彰大会，表彰在学习、品德等方面表现优秀的学生，激励全体同学再接再厉。</p>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">2023年5月10日</div>
+                    <h3 class="news-title">"走近鲁迅"——六年级《朝花夕拾》活动</h3>
+                    <p class="news-excerpt">六年级学生通过阅读、讨论和创作，深入了解鲁迅的文学世界，培养文学素养。</p>
+                </div>
+                <!-- Add more news items here -->
+            </div>
+        </div>
+    </section>
+
+    <div class="scroll-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const clubImages = {
+            "科技创新社": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+            "文学社": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+            "艺术团": "https://images.unsplash.com/photo-1545989253-02cc26577f88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+            "体育俱乐部": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+        };
+
+        // Hero section animations
+        gsap.from('.hero-title', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.hero-subtitle', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            delay: 0.3,
+            ease: 'power3.out'
+        });
+
+        // Animate club cards on scroll
+        gsap.from('.club-card', {
+            scrollTrigger: {
+                trigger: '.clubs-grid',
+                start: 'top 80%'
+            },
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power3.out'
+        });
+
+        // Animate activity items on scroll
+        gsap.from('.activity-item', {
+            scrollTrigger: {
+                trigger: '.activities-list',
+                start: 'top 80%'
+            },
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power3.out'
+        });
+
+        // Animate news items on scroll
+        gsap.from('.news-item', {
+            scrollTrigger: {
+                trigger: '.news-list',
+                start: 'top 80%'
+            },
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power3.out'
+        });
+
+        // Parallax effect for activity images
+        gsap.utils.toArray('.activity-image').forEach(image => {
+            gsap.to(image, {
+                backgroundPosition: `50% ${innerHeight / 2}px`,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: image,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        });
+
+        // Scroll to top functionality
+        const scrollToTopBtn = document.querySelector('.scroll-to-top');
+        gsap.to(scrollToTopBtn, {
+            scrollTrigger: {
+                trigger: 'body',
+                start: '100px top',
+                end: '+=300',
+                toggleActions: 'play none none reverse'
+            },
+            opacity: 1,
+            duration: 0.3
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            gsap.to(window, {duration: 1, scrollTo: 0, ease: 'power3.inOut'});
+        });
+    });
+</script>
+{% endblock %}

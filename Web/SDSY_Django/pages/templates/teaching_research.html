@@ -1,0 +1,380 @@
+{% extends "base.html" %}
+
+{% block title %}教学科研 - 山东大学附属中学实验学校{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #0056b3;
+        --secondary-color: #6c757d;
+        --accent-color: #ffc107;
+        --bg-color: #f8f9fa;
+        --text-color: #333;
+        --white: #ffffff;
+    }
+
+    body {
+        font-family: 'Noto Sans SC', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    .teaching-research {
+        padding: 80px 0;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-color), #003366);
+        color: var(--white);
+        padding: 100px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        animation: fadeInUp 1s ease-out 0.3s;
+        animation-fill-mode: both;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 50px;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 3px;
+        background-color: var(--accent-color);
+        margin: 20px auto 0;
+    }
+
+    .research-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+    }
+
+    .research-card {
+        background-color: var(--white);
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .research-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .research-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .research-content {
+        padding: 20px;
+    }
+
+    .research-title {
+        font-size: 1.3rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .research-excerpt {
+        font-size: 0.9rem;
+        color: var(--secondary-color);
+        margin-bottom: 15px;
+    }
+
+    .research-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: var(--secondary-color);
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #004494;
+    }
+
+    .feature-section {
+        background-color: var(--white);
+        padding: 80px 0;
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .feature-item {
+        text-align: center;
+        padding: 30px;
+        background-color: var(--bg-color);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .feature-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+
+    .feature-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+    }
+
+    .news-ticker {
+        background-color: var(--accent-color);
+        color: var(--text-color);
+        padding: 10px 0;
+        overflow: hidden;
+    }
+
+    .ticker-content {
+        display: flex;
+        animation: ticker 30s linear infinite;
+    }
+
+    .ticker-item {
+        white-space: nowrap;
+        padding: 0 30px;
+    }
+
+    @keyframes ticker {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .scroll-to-top:hover {
+        background-color: #004494;
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+        .section-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="teaching-research">
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">教学科研</h1>
+            <p class="hero-subtitle">创新教学方法，推动科研发展</p>
+            <a href="#research-projects" class="btn-primary">了解更多</a>
+        </div>
+    </section>
+
+    <div class="news-ticker">
+        <div class="ticker-content">
+            <span class="ticker-item">喜报：多项课程在"山东省优秀课程设计"评选中获奖</span>
+            <span class="ticker-item">组织高层次人才开展《走向名师之路》培训</span>
+            <span class="ticker-item">我校教师在全国教学大赛中荣获一等奖</span>
+        </div>
+    </div>
+
+    <section class="feature-section">
+        <div class="container">
+            <h2 class="section-title">我们的特色</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🔬</div>
+                    <h3 class="feature-title">教学研究</h3>
+                    <p>创新教学方法，提升教学质量</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🏆</div>
+                    <h3 class="feature-title">教研活动</h3>
+                    <p>定期组织教研活动，促进教师成长</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📚</div>
+                    <h3 class="feature-title">特色课程</h3>
+                    <p>开设多样化特色课程，全面发展学生能力</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📰</div>
+                    <h3 class="feature-title">热门资讯</h3>
+                    <p>及时发布教育动态，分享教学成果</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research-projects" class="container">
+        <h2 class="section-title">研究项目</h2>
+        <div class="research-grid">
+            <div class="research-card">
+                <div class="research-image" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1122&q=80');"></div>
+                <div class="research-content">
+                    <h3 class="research-title">"做中学 学中做"小学数学作业设计</h3>
+                    <p class="research-excerpt">通过实践和体验，提高学生的数学学习兴趣和能力。</p>
+                    <div class="research-meta">
+                        <span>负责人：张三</span>
+                        <span>状态：进行中</span>
+                    </div>
+                </div>
+            </div>
+            <div class="research-card">
+                <div class="research-image" style="background-image: url('https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1172&q=80');"></div>
+                <div class="research-content">
+                    <h3 class="research-title">备课中反思模式——小学部课堂模式推进</h3>
+                    <p class="research-excerpt">通过备课反思，不断优化课堂教学模式。</p>
+                    <div class="research-meta">
+                        <span>负责人：李四</span>
+                        <span>状态：已结题</span>
+                    </div>
+                </div>
+            </div>
+            <div class="research-card">
+                <div class="research-image" style="background-image: url('https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                <div class="research-content">
+                    <h3 class="research-title">思政大课堂 共同谋良策</h3>
+                    <p class="research-excerpt">探索思政课程创新方法，提高思政教育实效性。</p>
+                    <div class="research-meta">
+                        <span>负责人：王五</span>
+                        <span>状态：进行中</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="scroll-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Scroll to top functionality
+        const scrollToTopBtn = document.querySelector('.scroll-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.opacity = '1';
+            } else {
+                scrollToTopBtn.style.opacity = '0';
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Animate feature items on scroll
+        const featureItems = document.querySelectorAll('.feature-item');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        featureItems.forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+            observer.observe(item);
+        });
+
+        // Research card hover effect
+        const researchCards = document.querySelectorAll('.research-card');
+        researchCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px) scale(1.03)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    });
+</script>
+{% endblock %}

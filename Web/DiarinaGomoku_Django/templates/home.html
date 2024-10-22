@@ -1,0 +1,543 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #3498db;
+        --secondary-color: #2ecc71;
+        --accent-color: #e74c3c;
+        --text-color: #34495e;
+        --bg-color: #ecf0f1;
+        --light-gray: #bdc3c7;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        overflow-x: hidden;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .home-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .hero-section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        text-align: center;
+        z-index: 2;
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        color: var(--text-color);
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-decoration: none;
+        color: white;
+        background-color: var(--primary-color);
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        margin: 0.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.5s ease;
+    }
+
+    .btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn-secondary {
+        background-color: var(--secondary-color);
+    }
+
+    .features-section, .how-to-play-section, .testimonials-section, .news-section {
+        padding: 4rem 0;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 3rem;
+        color: var(--text-color);
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+        transform: rotate(45deg);
+        transition: all 0.5s ease;
+    }
+
+    .feature-card:hover::before {
+        left: 100%;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px) rotate(2deg);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .feature-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+    }
+
+    .how-to-play-steps {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .step-card {
+        width: 200px;
+        text-align: center;
+        margin: 1rem;
+    }
+
+    .step-number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    .testimonial-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 1rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .testimonial-text {
+        font-style: italic;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-author {
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .news-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .news-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .news-content {
+        padding: 1rem;
+    }
+
+    .news-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+    }
+
+    .news-date {
+        color: var(--light-gray);
+        font-size: 0.9rem;
+    }
+
+    .chess-board {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(15, 1fr);
+        grid-template-rows: repeat(15, 1fr);
+        opacity: 0.1;
+        z-index: 1;
+    }
+
+    .chess-cell {
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .chess-piece {
+        position: absolute;
+        font-size: 2rem;
+        color: var(--text-color);
+        opacity: 0;
+        transition: all 0.5s ease;
+    }
+
+    .scroll-down {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 2rem;
+        color: var(--primary-color);
+        cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 3rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+
+        .features-grid, .news-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="home-container">
+    <section class="hero-section">
+        <div class="chess-board" id="chessBoard"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Diarina</h1>
+            <p class="hero-subtitle">智慧的较量，策略的艺术</p>
+            {% if user.is_authenticated %}
+                <p>欢迎回来，{{ user.username }}！准备好新的挑战了吗？</p>
+                <a href="{% url 'lobby' %}" class="btn">进入游戏大厅</a>
+            {% else %}
+                <p>加入我们，开启你的五子棋之旅！</p>
+                <a href="{% url 'login' %}" class="btn">登录</a>
+                <a href="{% url 'register' %}" class="btn btn-secondary">注册</a>
+            {% endif %}
+        </div>
+        <div class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <h2 class="section-title">游戏特色</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-brain feature-icon"></i>
+                <h3 class="feature-title">策略思维</h3>
+                <p>锻炼逻辑思考，提升预判能力</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-globe feature-icon"></i>
+                <h3 class="feature-title">全球对战</h3>
+                <p>与世界各地的高手切磋棋艺</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-trophy feature-icon"></i>
+                <h3 class="feature-title">排行榜</h3>
+                <p>挑战自我，登顶五子棋界</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-robot feature-icon"></i>
+                <h3 class="feature-title">AI对手</h3>
+                <p>随时随地，挑战智能AI</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-history feature-icon"></i>
+                <h3 class="feature-title">对局回放</h3>
+                <p>复盘精彩对局，总结经验教训</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-users feature-icon"></i>
+                <h3 class="feature-title">社区互动</h3>
+                <p>分享策略，结识棋友</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-to-play-section">
+        <h2 class="section-title">如何开始</h2>
+        <div class="how-to-play-steps">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>注册账号</h3>
+                <p>创建您的个人账号，加入我们的五子棋社区</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>进入大厅</h3>
+                <p>浏览在线玩家和开放的游戏房间</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>开始对局</h3>
+                <p>选择对手或创建新的游戏，开始您的五子棋之旅</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>提升技能</h3>
+                <p>通过不断实践和学习，提升您的五子棋水平</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-section">
+        <h2 class="section-title">玩家评价</h2>
+        <div class="testimonials-slider">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"这是我玩过的最好的在线五子棋平台，界面简洁，对手实力强劲！"</p>
+                <p class="testimonial-author">- 张三，五子棋爱好者</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"AI对手的难度设置很合理，让我在提升棋艺的同时也能享受游戏的乐趣。"</p>
+                <p class="testimonial-author">- 李四，业余棋手</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"社区氛围很好，认识了很多志同道合的朋友，学到了不少新的策略。"</p>
+                <p class="testimonial-author">- 王五，五子棋教练</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section">
+        <h2 class="section-title">最新动态</h2>
+        <div class="news-grid">
+            <div class="news-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Chess_tournament_in_Berlin_2015.jpg" alt="锦标赛" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">年度五子棋锦标赛即将开始</h3>
+                    <p class="news-date">2023年5月15日</p>
+                    <p>准备好迎接年度最激烈的比赛了吗？报名现已开始！</p>
+                </div>
+            </div>
+            <div class="news-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Chess_computer.svg" alt="AI更新" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">AI系统重大更新</h3>
+                    <p class="news-date">2023年5月10日</p>
+                    <p>我们的AI对手变得更加智能，快来挑战看看！</p>
+                </div>
+            </div>
+            <div class="news-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Chess_club_meeting.jpg" alt="社区活动" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">五子棋社区线下聚会</h3>
+                    <p class="news-date">2023年5月5日</p>
+                    <p>与其他棋友面对面交流，分享您的五子棋心得！</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 创建棋盘背景
+        const chessBoard = document.getElementById('chessBoard');
+        for (let i = 0; i < 225; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('chess-cell');
+            chessBoard.appendChild(cell);
+        }
+
+        // 随机生成棋子
+        for (let i = 0; i < 30; i++) {
+            const piece = document.createElement('div');
+            piece.classList.add('chess-piece');
+            piece.innerHTML = i % 2 === 0 ? '⚫' : '⚪';
+            piece.style.left = `${Math.random() * 100}%`;
+            piece.style.top = `${Math.random() * 100}%`;
+            chessBoard.appendChild(piece);
+        }
+
+        // 棋子动画
+        gsap.to('.chess-piece', {
+            opacity: 0.5,
+            stagger: 0.05,
+            duration: 2,
+            repeat: -1,
+            yoyo: true
+        });
+
+        // 英雄区域动画
+        gsap.from(".hero-title", {
+            opacity: 0,
+            y: -50,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        gsap.from(".hero-subtitle", {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            delay: 0.3,
+            ease: "power3.out"
+        });
+
+        gsap.from(".btn", {
+            opacity: 0,
+            scale: 0.5,
+            duration: 0.8,
+            delay: 0.6,
+            ease: "back.out(1.7)",
+            stagger: 0.2
+        });
+
+        // 特性卡片动画
+        gsap.from(".feature-card", {
+            scrollTrigger: {
+                trigger: ".features-section",
+                start: "top 80%",
+            },
+            opacity: 0,
+            y: 100,
+            duration: 1,
+            ease: "power3.out",
+            stagger: 0.2
+        });
+
+        // 如何开始步骤动画
+        gsap.from(".step-card", {
+            scrollTrigger: {
+                trigger: ".how-to-play-section",
+                start: "top 80%",
+            },
+            opacity: 0,
+            x: -100,
+            duration: 1,
+            ease: "power3.out",
+            stagger: 0.2
+        });
+
+        // 玩家评价滑动动画
+        const testimonials = document.querySelector('.testimonials-slider');
+        gsap.to(testimonials, {
+            x: () => -(testimonials.scrollWidth - testimonials.offsetWidth),
+            ease: "none",
+            scrollTrigger: {
+                trigger: testimonials,
+                start: "top center",
+                end: () => `+=${testimonials.offsetWidth}`,
+                scrub: 1,
+                pin: true,
+                anticipatePin: 1
+            }
+        });
+
+        // 新闻卡片动画
+        gsap.from(".news-card", {
+            scrollTrigger: {
+                trigger: ".news-section",
+                start: "top 80%",
+            },
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: "power3.out",
+            stagger: 0.2
+        });
+
+        // 滚动提示动画
+        gsap.to(".scroll-down", {
+            y: 20,
+            repeat: -1,
+            yoyo: true,
+            duration: 1,
+            ease: "power1.inOut"
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+</script>
+{% endblock extra_js %}

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}探索未来科技 | ModernY{% endblock %}
+
+{% block content %}
+<!-- 英雄部分不需要额外的 content-section 类 -->
+<section class="hero fullscreen-image">
+    <div class="hero-background" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content" style="transform: translateY(5vh);">
+        <h1 class="futuristic-title">
+            <span class="letter">M</span>
+            <span class="letter">o</span>
+            <span class="letter">d</span>
+            <span class="letter">e</span>
+            <span class="letter">r</span>
+            <span class="letter">n</span>
+            <span class="letter">Y</span>
+        </h1>
+        <p class="tagline">探索未来，引领创新</p>
+        <div class="cta-container">
+            <a href="{% url 'services' %}" class="btn btn-neon">创新服务</a>
+            <a href="{% url 'about' %}" class="btn btn-hologram">探索未来</a>
+        </div>
+    </div>
+    <!-- ... 其他内容 ... -->
+</section>
+
+<!-- 其他部分保持原样 -->
+<section class="innovation-showcase">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">创新科技</h2>
+        <div class="innovation-grid">
+            <div class="innovation-item" data-aos="fade-up">
+                <div class="innovation-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>人工智能</h3>
+                <p>利用深度学习和机器学习技术，为企业提供智能化解决方案</p>
+            </div>
+            <div class="innovation-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="innovation-icon">
+                    <i class="fas fa-chart-network"></i>
+                </div>
+                <h3>大数据分析</h3>
+                <p>通过先进的数据分析技术，帮助企业洞察市场趋势和客户需求</p>
+            </div>
+            <div class="innovation-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="innovation-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>物联网</h3>
+                <p>构建智能互联的设备网络，实现自动化和远程控制</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="parallax-section" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80')">
+    <div class="parallax-content">
+        <h2 class="section-title">塑造未来</h2>
+        <p class="section-description">与ModernY一起，开创属于您的科技未来</p>
+    </div>
+</section>
+
+<section class="services-showcase">
+    <div class="container">
+        <h2 class="section-title">我们的服务</h2>
+        <div class="services-slider" data-aos="fade-up">
+            {% for service in services %}
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="{{ service.icon }}"></i>
+                </div>
+                <h3>{{ service.title }}</h3>
+                <p>{{ service.description }}</p>
+                <a href="{% url 'services' %}" class="btn btn-outline">了解更多</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="testimonials">
+    <div class="container">
+        <h2 class="section-title">客户评价</h2>
+        <div class="testimonial-carousel" data-aos="fade-up">
+            {% for testimonial in testimonials %}
+            <div class="testimonial-item {% if forloop.first %}active{% endif %}">
+                <div class="testimonial-content">
+                    <p>"{{ testimonial.content }}"</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="{{ testimonial.avatar_url }}" alt="{{ testimonial.author }}">
+                    <div class="author-info">
+                        <h4>{{ testimonial.author }}</h4>
+                        <p>{{ testimonial.position }}, {{ testimonial.company }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <a href="#" class="carousel-control prev">&lt;</a>
+            <a href="#" class="carousel-control next">&gt;</a>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2 class="cta-title" data-aos="fade-up">准备好开始您的创新之旅了吗？</h2>
+        <p class="cta-description" data-aos="fade-up" data-aos-delay="200">让我们一起探索无限可能，为您的企业注入未来科技的力量</p>
+        <a href="{% url 'contact' %}" class="btn btn-cta" data-aos="fade-up" data-aos-delay="400">联系我们</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

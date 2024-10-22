@@ -1,0 +1,479 @@
+{% extends "base.html" %}
+
+{% block title %}教师发展 - 山东大学附属中学实验学校{% endblock %}
+
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    :root {
+        --primary-color: #3498db;
+        --secondary-color: #2ecc71;
+        --accent-color: #e74c3c;
+        --bg-color: #ecf0f1;
+        --text-color: #34495e;
+        --white: #ffffff;
+    }
+
+    body {
+        font-family: 'Poppins', 'Noto Sans SC', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        overflow-x: hidden;
+    }
+
+    .teacher-development {
+        padding: 0;
+    }
+
+    .hero-section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        text-align: center;
+        z-index: 2;
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--white);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        color: var(--white);
+        opacity: 0.9;
+    }
+
+    .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.2;
+        z-index: 1;
+    }
+
+    .section {
+        padding: 100px 0;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 50px;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 3px;
+        background-color: var(--accent-color);
+        margin: 20px auto 0;
+    }
+
+    .teacher-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+
+    .stat-item {
+        text-align: center;
+        background-color: var(--white);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-item::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+        transform: rotate(45deg);
+        transition: all 0.5s ease;
+    }
+
+    .stat-item:hover::before {
+        left: 100%;
+    }
+
+    .stat-item:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+    }
+
+    .stat-label {
+        font-size: 1.1rem;
+        color: var(--text-color);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease 0.1s;
+    }
+
+    .development-programs {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+    }
+
+    .program-card {
+        background-color: var(--white);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+    }
+
+    .program-card:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .program-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+
+    .program-image::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7));
+    }
+
+    .program-content {
+        padding: 30px;
+        position: relative;
+    }
+
+    .program-title {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+    }
+
+    .program-description {
+        font-size: 1rem;
+        color: var(--text-color);
+        line-height: 1.6;
+    }
+
+    .news-section {
+        background-color: var(--white);
+        padding: 100px 0;
+    }
+
+    .news-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .news-list {
+        position: relative;
+        height: 300px;
+        overflow: hidden;
+    }
+
+    .no-news {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: var(--secondary-color);
+        font-size: 1.5rem;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+
+    .scroll-to-top:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-5px);
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .floating-icon {
+        position: absolute;
+        opacity: 0.1;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .icon-1 { top: 10%; left: 10%; font-size: 3rem; }
+    .icon-2 { top: 20%; right: 15%; font-size: 4rem; }
+    .icon-3 { bottom: 15%; left: 20%; font-size: 5rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="teacher-development">
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">教师发展</h1>
+            <p class="hero-subtitle">培养卓越教师，铸就教育未来</p>
+        </div>
+        <div class="floating-icon icon-1">📚</div>
+        <div class="floating-icon icon-2">🎓</div>
+        <div class="floating-icon icon-3">🏆</div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">教师基本情况</h2>
+            <div class="teacher-stats">
+                <div class="stat-item">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">专职教师</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">85%</div>
+                    <div class="stat-label">硕士及以上学历</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">省级骨干教师</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">国家级优秀教师</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">发展项目</h2>
+            <div class="development-programs">
+                <div class="program-card">
+                    <div class="program-image" style="background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="program-content">
+                        <h3 class="program-title">教师学历提升计划</h3>
+                        <p class="program-description">支持教师攻读硕士、博士学位，提升学术水平。</p>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-image" style="background-image: url('https://images.unsplash.com/photo-1544531585-9847b68c8c86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="program-content">
+                        <h3 class="program-title">骨干教师培养项目</h3>
+                        <p class="program-description">选拔和培养学科带头人，引领教学改革创新。</p>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-image" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="program-content">
+                        <h3 class="program-title">教学创新奖励机制</h3>
+                        <p class="program-description">鼓励教师开展教学创新，推动教育教学改革。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section">
+        <div class="container news-container">
+            <h2 class="section-title">热门资讯</h2>
+            <div class="news-list">
+                <div class="no-news">
+                    <p>暂无资讯</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="scroll-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero section animations
+        gsap.from('.hero-title', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.hero-subtitle', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            delay: 0.3,
+            ease: 'power3.out'
+        });
+
+        // Floating icons animation
+        gsap.to('.floating-icon', {
+            y: -20,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: 'power1.inOut',
+            stagger: 0.2
+        });
+
+        // Stat items animation
+        gsap.from('.stat-item', {
+            scrollTrigger: {
+                trigger: '.teacher-stats',
+                start: 'top 80%'
+            },
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power3.out'
+        });
+
+        gsap.to('.stat-number, .stat-label', {
+            scrollTrigger: {
+                trigger: '.teacher-stats',
+                start: 'top 80%'
+            },
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power3.out'
+        });
+
+        // Program cards animation
+        gsap.from('.program-card', {
+            scrollTrigger: {
+                trigger: '.development-programs',
+                start: 'top 80%'
+            },
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power3.out'
+        });
+
+        // Parallax effect for program images
+        gsap.utils.toArray('.program-image').forEach(image => {
+            gsap.to(image, {
+                backgroundPosition: `50% ${innerHeight / 2}px`,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: image,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        });
+
+        // Scroll to top functionality
+        const scrollToTopBtn = document.querySelector('.scroll-to-top');
+        gsap.to(scrollToTopBtn, {
+            scrollTrigger: {
+                trigger: 'body',
+                start: '100px top',
+                end: '+=300',
+                toggleActions: 'play none none reverse'
+            },
+            opacity: 1,
+            duration: 0.3
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            gsap.to(window, {duration: 1, scrollTo: 0, ease: 'power3.inOut'});
+        });
+
+        // Custom cursor
+        const cursor = document.createElement('div');
+        cursor.className = 'custom-cursor';
+        document.body.appendChild(cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1
+            });
+        });
+
+        const hoverElements = document.querySelectorAll('.program-card, .stat-item, .scroll-to-top');
+        hoverElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                gsap.to(cursor, {scale: 2, duration: 0.3});
+            });
+            element.addEventListener('mouseleave', () => {
+                gsap.to(cursor, {scale: 1, duration: 0.3});
+            });
+        });
+    });
+</script>
+{% endblock %}

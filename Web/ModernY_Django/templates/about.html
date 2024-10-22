@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}关于我们 | ModernY{% endblock %}
+
+{% block content %}
+<section class="hero fullscreen-image">
+    <div class="hero-background" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="futuristic-title">
+            <span class="letter">关</span>
+            <span class="letter">于</span>
+            <span class="letter">我</span>
+            <span class="letter">们</span>
+        </h1>
+        <p class="tagline">探索未来，引领创新</p>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">我们的故事</h2>
+        <div class="about-content" data-aos="fade-up" data-aos-delay="200">
+            <p>ModernY 成立于2020年，是一家致力于推动科技创新的公司。我们的使命是通过尖端技术为客户创造价值，推动行业发展。</p>
+            <p>在短短几年内，我们已经成为人工智能、大数据分析和物联网领域的领军企业，为众多行业提供创新解决方案。</p>
+        </div>
+    </div>
+</section>
+
+<section class="vision-mission-section">
+    <div class="container">
+        <div class="vision-mission-grid">
+            <div class="vision-mission-item" data-aos="fade-right">
+                <h3>我们的愿景</h3>
+                <p>成为全球科技创新的引领者，塑造更美好的数字未来。</p>
+            </div>
+            <div class="vision-mission-item" data-aos="fade-left">
+                <h3>我们的使命</h3>
+                <p>通过持续创新和卓越服务，为客户创造价值，推动行业进步。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="team-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">我们的团队</h2>
+        <div class="team-grid">
+            <div class="team-member" data-aos="fade-up">
+                <img src="{% static 'images/team/member1.jpg' %}" alt="团队成员1">
+                <h3>张三</h3>
+                <p>首席技术官</p>
+            </div>
+            <div class="team-member" data-aos="fade-up" data-aos-delay="200">
+                <img src="{% static 'images/team/member2.jpg' %}" alt="团队成员2">
+                <h3>李四</h3>
+                <p>AI研究主管</p>
+            </div>
+            <div class="team-member" data-aos="fade-up" data-aos-delay="400">
+                <img src="{% static 'images/team/member3.jpg' %}" alt="团队成员3">
+                <h3>王五</h3>
+                <p>产品设计师</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="timeline-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">我们的发展历程</h2>
+        <div class="timeline-container" data-aos="fade-up">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2018年</h3>
+                    <p>ModernY成立，开始提供Web开发服务</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2019年</h3>
+                    <p>拓展业务，开始提供AI解决方案</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2020年</h3>
+                    <p>推出首个AI驱动的产品，获得行业认可</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2021年</h3>
+                    <p>团队规模扩大到50人，服务客户超过100家</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2022年</h3>
+                    <p>获得A轮融资，加速产品研发和市场拓展</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2 class="cta-title" data-aos="fade-up">准备好与我们一起创造未来了吗？</h2>
+        <p class="cta-description" data-aos="fade-up" data-aos-delay="200">加入ModernY，共同探索科技的无限可能</p>
+        <a href="{% url 'contact' %}" class="btn btn-cta" data-aos="fade-up" data-aos-delay="400">联系我们</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+<script src="{% static 'js/about.js' %}"></script>
+{% endblock %}

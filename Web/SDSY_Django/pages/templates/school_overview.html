@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+
+{% block title %}学校概况 - 山东大学附属中学实验学校{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #0056b3;
+        --secondary-color: #6c757d;
+        --accent-color: #ffc107;
+        --text-color: #333;
+        --bg-color: #f8f9fa;
+    }
+
+    body {
+        font-family: 'Noto Sans SC', sans-serif;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+    }
+
+    .school-overview {
+        padding: 50px 0;
+    }
+
+    .hero-section {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.7);
+        transition: transform 0.3s ease-out;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        color: #fff;
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease-out 0.2s, transform 0.5s ease-out 0.2s;
+    }
+
+    .section {
+        padding: 80px 0;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .news-item {
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .news-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .news-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .news-content {
+        padding: 20px;
+    }
+
+    .news-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+    }
+
+    .news-excerpt {
+        font-size: 0.9rem;
+        color: var(--secondary-color);
+    }
+
+    .departments {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .department {
+        text-align: center;
+        margin: 20px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .department-icon {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .announcement {
+        background-color: var(--accent-color);
+        color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .announcement h3 {
+        margin-bottom: 10px;
+    }
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--primary-color);
+        color: #fff;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .scroll-to-top:hover {
+        background-color: #004494;
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 3rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="school-overview">
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">山东大学附属中学实验学校</h1>
+            <p class="hero-subtitle">培养全面发展的未来领袖</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">学校要闻</h2>
+            <div class="news-grid">
+                <div class="news-item">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="news-content">
+                        <h3 class="news-title">青春不散场 逐梦再起航</h3>
+                        <p class="news-excerpt">记山大附中实验学校2019级初三毕业典礼</p>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="news-content">
+                        <h3 class="news-title">定陶团区委书记陈静调研学校</h3>
+                        <p class="news-excerpt">"党团队阶梯式衔接培养"改革试点工作</p>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="news-content">
+                        <h3 class="news-title">"练为战"——小学部线上教学应急演练</h3>
+                        <p class="news-excerpt">为应对可能的突发情况，确保教学质量</p>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80');"></div>
+                    <div class="news-content">
+                        <h3 class="news-title">展巾帼风采——召开优秀女教工座谈会</h3>
+                        <p class="news-excerpt">庆祝三八妇女节，表彰优秀女教师</p>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1627556704302-624286467c65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="news-content">
+                        <h3 class="news-title">春季开学典礼及高三年级学期总结活动</h3>
+                        <p class="news-excerpt">激励学生奋发向上，为高考做好准备</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background-color: #fff;">
+        <div class="container">
+            <h2 class="section-title">学校特色</h2>
+            <div class="departments">
+                <div class="department">
+                    <div class="department-icon">🎓</div>
+                    <h3>教学科研</h3>
+                    <p>注重教学创新和科研发展</p>
+                </div>
+                <div class="department">
+                    <div class="department-icon">🏆</div>
+                    <h3>学生空间</h3>
+                    <p>全面发展，多元成长</p>
+                </div>
+                <div class="department">
+                    <div class="department-icon">🤝</div>
+                    <h3>家校合作</h3>
+                    <p>深化家校互动，共育英才</p>
+                </div>
+                <div class="department">
+                    <div class="department-icon">🏛️</div>
+                    <h3>党建之窗</h3>
+                    <p>加强党建，引领发展</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="announcement">
+            <h3>2024年招生信息</h3>
+            <p>我校2024年招生工作即将开始，欢迎广大学子报考。详情请关注学校官网或咨询招生办公室。</p>
+        </div>
+    </div>
+
+    <div class="scroll-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hero section animations
+        setTimeout(() => {
+            document.querySelector('.hero-title').style.opacity = '1';
+            document.querySelector('.hero-title').style.transform = 'translateY(0)';
+        }, 500);
+        setTimeout(() => {
+            document.querySelector('.hero-subtitle').style.opacity = '1';
+            document.querySelector('.hero-subtitle').style.transform = 'translateY(0)';
+        }, 1000);
+
+        // Parallax effect for hero background
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.pageYOffset;
+            document.querySelector('.hero-bg').style.transform = `translateY(${scrollPosition * 0.5}px)`;
+        });
+
+        // Department animations
+        const departments = document.querySelectorAll('.department');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        departments.forEach(department => {
+            observer.observe(department);
+        });
+
+        // Scroll to top button
+        const scrollToTopBtn = document.querySelector('.scroll-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.opacity = '1';
+            } else {
+                scrollToTopBtn.style.opacity = '0';
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // News item hover effect
+        const newsItems = document.querySelectorAll('.news-item');
+        newsItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateY(-10px)';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateY(0)';
+            });
+        });
+    });
+</script>
+{% endblock %}

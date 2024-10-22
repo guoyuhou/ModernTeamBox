@@ -1,0 +1,696 @@
+{% extends 'base.html' %}
+
+{% block title %}产品与服务{% endblock %}
+
+{% block extra_css %}
+<style>
+    .products-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 8rem 0 5rem;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    .products-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+        background-size: cover;
+        opacity: 0.2;
+        z-index: 0;
+    }
+    .products-header-content {
+        position: relative;
+        z-index: 1;
+    }
+    .products-header h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    .products-header p {
+        font-size: 1.3rem;
+        max-width: 700px;
+        margin: 0 auto;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    .product-filter {
+        background-color: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        padding: 1rem;
+        border-radius: 50px;
+        display: inline-flex;
+        margin-top: 2rem;
+    }
+    .filter-btn {
+        background-color: transparent;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        margin: 0 0.5rem;
+        cursor: pointer;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        color: white;
+    }
+    .filter-btn.active {
+        background-color: rgba(255,255,255,0.2);
+        box-shadow: 0 0 10px rgba(255,255,255,0.5);
+    }
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 4rem 2rem;
+        background-color: #f9f9f9;
+    }
+    .product-card {
+        background-color: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    .product-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        transition: all 0.3s ease;
+    }
+    .product-card:hover .product-image {
+        transform: scale(1.1);
+    }
+    .product-info {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .product-name {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+    .product-description {
+        color: #666;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+    }
+    .more-info-btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        align-self: flex-start;
+    }
+    .more-info-btn:hover {
+        background-color: #45a049;
+        box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        overflow-y: auto;
+    }
+    .modal-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 3rem;
+        width: 80%;
+        max-width: 800px;
+        border-radius: 15px;
+        position: relative;
+        animation: modalFadeIn 0.5s;
+    }
+    @keyframes modalFadeIn {
+        from {opacity: 0; transform: translateY(-50px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+    .close {
+        color: #aaa;
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .close:hover {
+        color: #000;
+    }
+    .modal-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+    }
+    .modal-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+    .modal-description {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+    .modal-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    .feature-item {
+        background-color: #f4f4f4;
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .feature-icon {
+        font-size: 2rem;
+        color: #4CAF50;
+        margin-bottom: 0.5rem;
+    }
+    .cta-section {
+        background-color: #f0f0f0;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+    .cta-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+    .cta-description {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto 2rem;
+        color: #666;
+    }
+    .cta-btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .cta-btn:hover {
+        background-color: #45a049;
+        box-shadow: 0 10px 20px rgba(76, 175, 80, 0.4);
+        transform: translateY(-3px);
+    }
+    /* 新增样式 */
+    .industry-solutions {
+        background-color: #f0f0f0;
+        padding: 4rem 2rem;
+    }
+    .industry-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    .industry-card {
+        background-color: white;
+        border-radius: 10px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    .industry-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    .industry-icon {
+        font-size: 3rem;
+        color: #4CAF50;
+        margin-bottom: 1rem;
+    }
+    .innovation-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+    .innovation-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .innovation-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    .innovation-description {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+    .innovation-stats {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+    .innovation-stat {
+        margin: 1rem;
+    }
+    .stat-value {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+    .stat-label {
+        font-size: 1.2rem;
+        opacity: 0.8;
+    }
+    .sustainability-section {
+        background-color: #e8f5e9;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+    .sustainability-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    .sustainability-card {
+        background-color: white;
+        border-radius: 10px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    .sustainability-card:hover {
+        transform: scale(1.05);
+    }
+    .sustainability-icon {
+        font-size: 3rem;
+        color: #4CAF50;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="products-header">
+    <div class="products-header-content">
+        <h1>创新化工解决方案</h1>
+        <p>探索山东鑫阳化工的尖端产品与服务，为您的业务带来革命性的变革</p>
+        <div class="product-filter">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="polymer">高性能聚合物</button>
+            <button class="filter-btn" data-filter="specialty">特种化学品</button>
+            <button class="filter-btn" data-filter="eco">环保产品</button>
+        </div>
+    </div>
+</section>
+
+<section class="products-grid">
+    <div class="product-card" data-category="polymer">
+        <img src="https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="高性能聚合物" class="product-image">
+        <div class="product-info">
+            <h3 class="product-name">高性能聚合物</h3>
+            <p class="product-description">适用于各种工业应用的先进聚合物材料，提供卓越的机械性能和化学稳定性。</p>
+            <button class="more-info-btn" data-product="polymer">了解更多</button>
+        </div>
+    </div>
+    <div class="product-card" data-category="specialty">
+        <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="特种化学品" class="product-image">
+        <div class="product-info">
+            <h3 class="product-name">特种化学品</h3>
+            <p class="product-description">为特定行业定制的高性能化学品，提高生产效率，改善最终产品性能。</p>
+            <button class="more-info-btn" data-product="specialty">了解更多</button>
+        </div>
+    </div>
+    <div class="product-card" data-category="eco">
+        <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="环保溶剂" class="product-image">
+        <div class="product-info">
+            <h3 class="product-name">环保溶剂</h3>
+            <p class="product-description">低VOC、高效能的环保型溶剂产品，助力可持续发展，减少环境影响。</p>
+            <button class="more-info-btn" data-product="eco">了解更多</button>
+        </div>
+    </div>
+    <!-- 添加更多产品卡片 -->
+</section>
+
+<!-- 新增行业解决方案部分 -->
+<section class="industry-solutions">
+    <h2 class="section-title">行业解决方案</h2>
+    <div class="industry-grid">
+        <div class="industry-card">
+            <i class="fas fa-car industry-icon"></i>
+            <h3>汽车行业</h3>
+            <p>为汽车制造提供高性能材料和创新解决方案。</p>
+        </div>
+        <div class="industry-card">
+            <i class="fas fa-microchip industry-icon"></i>
+            <h3>电子行业</h3>
+            <p>提供先进材料，助力电子产品性能提升。</p>
+        </div>
+        <div class="industry-card">
+            <i class="fas fa-building industry-icon"></i>
+            <h3>建筑行业</h3>
+            <p>开发环保、高效的建筑材料和添加剂。</p>
+        </div>
+        <div class="industry-card">
+            <i class="fas fa-medkit industry-icon"></i>
+            <h3>医疗行业</h3>
+            <p>为医疗设备和药品生产提供高品质化学品。</p>
+        </div>
+    </div>
+</section>
+
+<!-- 新增创新与研发部分 -->
+<section class="innovation-section">
+    <div class="innovation-content">
+        <h2 class="innovation-title">创新与研发</h2>
+        <p class="innovation-description">我们致力于推动化工行业的技术进步，不断投入研发创新。</p>
+        <div class="innovation-stats">
+            <div class="innovation-stat">
+                <div class="stat-value" id="patentCount">0</div>
+                <div class="stat-label">项专利</div>
+            </div>
+            <div class="innovation-stat">
+                <div class="stat-value" id="rdStaff">0</div>
+                <div class="stat-label">研发人员</div>
+            </div>
+            <div class="innovation-stat">
+                <div class="stat-value" id="annualInvestment">0</div>
+                <div class="stat-label">年度研发投入（百万元）</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 新增可持续发展部分 -->
+<section class="sustainability-section">
+    <h2 class="section-title">可持续发展</h2>
+    <div class="sustainability-grid">
+        <div class="sustainability-card">
+            <i class="fas fa-leaf sustainability-icon"></i>
+            <h3>绿色化学</h3>
+            <p>开发环保型产品，减少环境影响。</p>
+        </div>
+        <div class="sustainability-card">
+            <i class="fas fa-recycle sustainability-icon"></i>
+            <h3>循环经济</h3>
+            <p>推动资源循环利用，提高生产效率。</p>
+        </div>
+        <div class="sustainability-card">
+            <i class="fas fa-sun sustainability-icon"></i>
+            <h3>清洁能源</h3>
+            <p>使用可再生能源，降低碳排放。</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <h2 class="cta-title">定制化解决方案</h2>
+    <p class="cta-description">我们的专家团队随时准备为您的特定需求提供量身定制的化工解决方案。无论您的行业或应用如何，我们都能为您创造价值。</p>
+    <button class="cta-btn">联系我们</button>
+</section>
+
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <img id="modalImage" src="" alt="" class="modal-image">
+        <h2 id="modalTitle" class="modal-title"></h2>
+        <p id="modalDescription" class="modal-description"></p>
+        <div id="modalFeatures" class="modal-features"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 产品筛选
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const productCards = document.querySelectorAll('.product-card');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const filter = button.getAttribute('data-filter');
+            
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            gsap.to(productCards, {
+                duration: 0.5,
+                opacity: 0,
+                y: 50,
+                stagger: 0.1,
+                onComplete: () => {
+                    productCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    gsap.to(productCards, {
+                        duration: 0.5,
+                        opacity: 1,
+                        y: 0,
+                        stagger: 0.1,
+                        delay: 0.1
+                    });
+                }
+            });
+        });
+    });
+
+    // 产品详情模态框
+    const modal = document.getElementById('productModal');
+    const modalContent = document.querySelector('.modal-content');
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalFeatures = document.getElementById('modalFeatures');
+    const closeBtn = document.querySelector('.close');
+    const moreInfoBtns = document.querySelectorAll('.more-info-btn');
+
+    const productDetails = {
+        polymer: {
+            title: "高性能聚合物",
+            image: "https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            description: "我们的高性能聚合物产品线包括热塑性弹性体、工程塑料和特种聚合物。这些材料具有卓越的机械性能、耐热性和化学稳定性，广泛应用于汽车、电子、医疗和航空航天等行业。我们的产品可以根据客户需求进行定制，以满足特定应用的要求。",
+            features: [
+                { icon: "fas fa-tachometer-alt", text: "高强度" },
+                { icon: "fas fa-thermometer-half", text: "优异的耐热性" },
+                { icon: "fas fa-shield-alt", text: "卓越的化学稳定性" },
+                { icon: "fas fa-cogs", text: "可定制性强" }
+            ]
+        },
+        specialty: {
+            title: "特种化学品",
+            image: "https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            description: "我们的特种化学品系列为各种工业过程提供定制解决方案。包括表面活性剂、催化剂、添加剂和功能性单体等，这些产品能够显著提高生产效率，改善最终产品性能。我们的研发团队不断创新，为客户开发新的特种化学品，以应对不断变化的市场需求。",
+            features: [
+                { icon: "fas fa-flask", text: "高效催化剂" },
+                { icon: "fas fa-atom", text: "先进表面活性剂" },
+                { icon: "fas fa-plus-circle", text: "功能性添加剂" },
+                { icon: "fas fa-lightbulb", text: "持续创新" }
+            ]
+        },
+        eco: {
+            title: "环保溶剂",
+            image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            description: "我们的环保溶剂产品线专注于开发低VOC、低毒性的绿色溶剂。这些产品不仅能有效替代传统有机溶剂，还能减少环境影响，帮助客户实现更可持续的生产过程。我们的环保溶剂在涂料、清洁剂和工业脱脂等领域有广泛应用，为客户提供环保和高效的解决方案。",
+            features: [
+                { icon: "fas fa-leaf", text: "低VOC排放" },
+                { icon: "fas fa-recycle", text: "可生物降解" },
+                { icon: "fas fa-industry", text: "广泛应用" },
+                { icon: "fas fa-hand-holding-water", text: "高效清洁能力" }
+            ]
+        }
+    };
+
+    function openModal(product) {
+        const details = productDetails[product];
+        modalImage.src = details.image;
+        modalTitle.textContent = details.title;
+        modalDescription.textContent = details.description;
+        modalFeatures.innerHTML = details.features.map(feature => 
+            `<div class="feature-item"><i class="${feature.icon} feature-icon"></i><span>${feature.text}</span></div>`
+        ).join('');
+        modal.style.display = 'block';
+        gsap.fromTo(modalContent, 
+            { opacity: 0, y: 50 }, 
+            { duration: 0.5, opacity: 1, y: 0, ease: 'power2.out' }
+        );
+    }
+
+    function closeModal() {
+        gsap.to(modalContent, { 
+            duration: 0.5, 
+            opacity: 0, 
+            y: 50, 
+            ease: 'power2.in',
+            onComplete: () => {
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    moreInfoBtns.forEach(btn => {
+        btn.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const product = btn.getAttribute('data-product');
+            openModal(product);
+        });
+    });
+
+    closeBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        closeModal();
+    });
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    modalContent.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+
+    // 添加产品卡片动画
+    gsap.from('.product-card', {
+        duration: 1,
+        opacity: 0,
+        y: 50,
+        stagger: 0.2,
+        scrollTrigger: {
+            trigger: '.products-grid',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+
+    // CTA部分动画
+    gsap.from('.cta-section', {
+        duration: 1,
+        opacity: 0,
+        y: 50,
+        scrollTrigger: {
+            trigger: '.cta-section',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+
+    // 新增动画效果
+    gsap.from('.industry-card', {
+        opacity: 0,
+        y: 50,
+        stagger: 0.2,
+        duration: 1,
+        scrollTrigger: {
+            trigger: '.industry-solutions',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+
+    gsap.from('.innovation-content', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        scrollTrigger: {
+            trigger: '.innovation-section',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+
+    gsap.from('.sustainability-card', {
+        opacity: 0,
+        scale: 0.8,
+        stagger: 0.2,
+        duration: 1,
+        scrollTrigger: {
+            trigger: '.sustainability-section',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+
+    // 创新统计数字动画
+    function animateValue(id, start, end, duration) {
+        let obj = document.getElementById(id);
+        let range = end - start;
+        let minTimer = 50;
+        let stepTime = Math.abs(Math.floor(duration / range));
+        stepTime = Math.max(stepTime, minTimer);
+        let startTime = new Date().getTime();
+        let endTime = startTime + duration;
+        let timer;
+
+        function run() {
+            let now = new Date().getTime();
+            let remaining = Math.max((endTime - now) / duration, 0);
+            let value = Math.round(end - (remaining * range));
+            obj.innerHTML = value;
+            if (value == end) {
+                clearInterval(timer);
+            }
+        }
+
+        timer = setInterval(run, stepTime);
+        run();
+    }
+
+    ScrollTrigger.create({
+        trigger: ".innovation-section",
+        start: "top 80%",
+        onEnter: () => {
+            animateValue("patentCount", 0, 150, 2000);
+            animateValue("rdStaff", 0, 500, 2000);
+            animateValue("annualInvestment", 0, 100, 2000);
+        }
+    });
+</script>
+{% endblock %}

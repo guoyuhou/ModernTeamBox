@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}创新服务 | ModernY{% endblock %}
+
+{% block content %}
+<section class="hero fullscreen-image">
+    <div class="hero-background" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="futuristic-title">
+            <span class="letter">创</span>
+            <span class="letter">新</span>
+            <span class="letter">服</span>
+            <span class="letter">务</span>
+        </h1>
+        <p class="tagline">引领科技，塑造未来</p>
+    </div>
+</section>
+
+<section class="services-showcase">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">我们的核心服务</h2>
+        <div class="services-grid">
+            <div class="service-card" data-aos="fade-up">
+                <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+                <h3>先进的Web网页设计</h3>
+                <p>打造响应式、高性能、视觉震撼的现代化网站</p>
+                <a href="#web-design" class="btn btn-outline service-details-btn">了解更多</a>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Streamlit Web应用设计</h3>
+                <p>快速构建数据驱动的交互式Web应用</p>
+                <a href="#streamlit-apps" class="btn btn-outline service-details-btn">了解更多</a>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-icon"><i class="fas fa-brain"></i></div>
+                <h3>AI+产品构建</h3>
+                <p>将人工智能融入您的产品，提升竞争力</p>
+                <a href="#ai-products" class="btn btn-outline service-details-btn">了解更多</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="web-design" class="service-details">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">先进的Web网页设计</h2>
+        <div class="service-content" data-aos="fade-up" data-aos-delay="200">
+            <p>我们的Web设计团队运用最新的技术和设计理念，为您打造独一无二的网站体验：</p>
+            <ul class="feature-list">
+                <li>响应式设计，适配各种设备</li>
+                <li>优化的性能和加载速度</li>
+                <li>吸引眼球的动画和交互效果</li>
+                <li>无障碍设计，确保所有用户都能轻松访问</li>
+                <li>搜索引擎优化（SEO）友好</li>
+            </ul>
+            <div class="tech-stack">
+                <span class="tech-item">HTML5</span>
+                <span class="tech-item">CSS3</span>
+                <span class="tech-item">JavaScript</span>
+                <span class="tech-item">React</span>
+                <span class="tech-item">Vue.js</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="streamlit-apps" class="service-details">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Streamlit Web应用设计</h2>
+        <div class="service-content" data-aos="fade-up" data-aos-delay="200">
+            <p>利用Streamlit的强大功能，我们帮助您快速构建数据驱动的Web应用：</p>
+            <ul class="feature-list">
+                <li>直观的数据可视化</li>
+                <li>实时数据处理和分析</li>
+                <li>机器学习模型的交互式展示</li>
+                <li>快速原型开发和迭代</li>
+                <li>轻松部署和扩展</li>
+            </ul>
+            <div class="tech-stack">
+                <span class="tech-item">Python</span>
+                <span class="tech-item">Streamlit</span>
+                <span class="tech-item">Pandas</span>
+                <span class="tech-item">Matplotlib</span>
+                <span class="tech-item">Scikit-learn</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="ai-products" class="service-details">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">AI+产品构建</h2>
+        <div class="service-content" data-aos="fade-up" data-aos-delay="200">
+            <p>我们帮助您将人工智能技术无缝集成到您的产品中，提升其智能化水平：</p>
+            <ul class="feature-list">
+                <li>自然语言处理（NLP）解决方案</li>
+                <li>计算机视觉应用</li>
+                <li>预测分析和决策支持系统</li>
+                <li>智能推荐引擎</li>
+                <li>自动化和流程优化</li>
+            </ul>
+            <div class="tech-stack">
+                <span class="tech-item">TensorFlow</span>
+                <span class="tech-item">PyTorch</span>
+                <span class="tech-item">OpenAI GPT</span>
+                <span class="tech-item">Computer Vision</span>
+                <span class="tech-item">MLOps</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2 class="cta-title" data-aos="fade-up">准备好开启您的创新之旅了吗？</h2>
+        <p class="cta-description" data-aos="fade-up" data-aos-delay="200">联系我们，共同探索科技带来的无限可能</p>
+        <a href="{% url 'contact' %}" class="btn btn-cta" data-aos="fade-up" data-aos-delay="400">立即咨询</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+<script src="{% static 'js/services.js' %}"></script>
+{% endblock %}

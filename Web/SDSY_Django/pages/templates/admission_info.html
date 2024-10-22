@@ -1,0 +1,490 @@
+{% extends "base.html" %}
+
+{% block title %}招生信息 - 开启你的未来之门{% endblock %}
+
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+    :root {
+        --primary-color: #1e88e5;
+        --secondary-color: #43a047;
+        --accent-color: #ff6f00;
+        --bg-color: #f5f5f5;
+        --text-color: #333;
+        --white: #ffffff;
+    }
+
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Sans SC', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+    }
+
+    .admission-info {
+        position: relative;
+        width: 100vw;
+        min-height: 100vh;
+        overflow: hidden;
+    }
+
+    .parallax-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+        background-size: cover;
+        background-position: center;
+        filter: blur(5px);
+        transform: scale(1.1);
+        z-index: -1;
+    }
+
+    .content-wrapper {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--white);
+        background: linear-gradient(135deg, rgba(30, 136, 229, 0.8), rgba(67, 160, 71, 0.8));
+    }
+
+    .hero-content {
+        max-width: 800px;
+        padding: 2rem;
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--primary-color), 0 0 20px var(--primary-color), 0 0 35px var(--primary-color), 0 0 40px var(--primary-color);
+        }
+        to {
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--secondary-color), 0 0 40px var(--secondary-color), 0 0 50px var(--secondary-color), 0 0 60px var(--secondary-color);
+        }
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .cta-button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+        color: var(--white);
+        background-color: var(--accent-color);
+        border: none;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+    }
+
+    .section {
+        padding: 5rem 0;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .admission-guide {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background-color: var(--white);
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .guide-content {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    .news-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .news-item {
+        background-color: var(--white);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .news-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .news-image {
+        width: 100%;
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .news-content {
+        padding: 1.5rem;
+    }
+
+    .news-title {
+        font-size: 1.3rem;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .news-date {
+        font-size: 0.9rem;
+        color: #777;
+        margin-bottom: 1rem;
+    }
+
+    .news-excerpt {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 50px;
+        border: 2px solid var(--white);
+        border-radius: 25px;
+    }
+
+    .scroll-indicator::before {
+        content: '';
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        background-color: var(--white);
+        border-radius: 50%;
+        transform: translateX(-50%);
+        animation: scrollIndicator 2s infinite;
+    }
+
+    @keyframes scrollIndicator {
+        0% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+        }
+    }
+
+    .custom-cursor {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--primary-color);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transition: transform 0.2s;
+    }
+
+    .custom-cursor.hover {
+        transform: scale(1.5);
+        background-color: var(--primary-color);
+        opacity: 0.5;
+    }
+
+    #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="particles-js"></div>
+<div class="admission-info">
+    <div class="parallax-bg"></div>
+    <div class="content-wrapper">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">开启你的未来之门</h1>
+                <p class="hero-subtitle">山大附中实验学校欢迎你加入我们的大家庭</p>
+                <a href="#admission-guide" class="cta-button">了解招生信息</a>
+            </div>
+            <div class="scroll-indicator"></div>
+        </section>
+
+        <section id="admission-guide" class="section">
+            <h2 class="section-title">招生简章</h2>
+            <div class="admission-guide">
+                <div class="guide-content">
+                    <h3>2022年山大附中实验学校高中自主招生报名公告</h3>
+                    <p>山东大学附属中学实验学校2022年高中自主招生工作即将开始。我校将秉承"育人为本，培养全面发展的人才"的教育理念，为学生提供优质的教育资源和全面的发展机会。</p>
+                    <p>招生对象：应届初中毕业生</p>
+                    <p>报名时间：2022年6月10日至6月20日</p>
+                    <p>报名方式：网上报名</p>
+                    <p>考试时间：2022年7月1日</p>
+                    <p>考试内容：文化课考试和综合素质评价</p>
+                    <p>录取原则：根据考试成绩和综合素质评价，择优录取</p>
+                    <p>欢迎广大学生和家长关注我校招生信息，共同开启美好的未来！</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">热门资讯</h2>
+            <div class="news-list">
+                <div class="news-item">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="news-content">
+                        <h3 class="news-title">2022年山大附中实验学校高中自主招生报名公告</h3>
+                        <div class="news-date">2022-06-05 09:17</div>
+                        <p class="news-excerpt">山东大学附属中学实验学校2022年高中自主招生工作即将开始。我校将秉承"育人为本，培养全面发展的人才"的教育理念，为学生提供优质的教育资源和全面的发展机会。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero section animations
+        gsap.from('.hero-title', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.hero-subtitle', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            delay: 0.3,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.cta-button', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            delay: 0.6,
+            ease: 'power3.out'
+        });
+
+        // Parallax effect
+        gsap.to('.parallax-bg', {
+            yPercent: 50,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.admission-info',
+                scrub: true
+            }
+        });
+
+        // Animate sections on scroll
+        gsap.utils.toArray('.section').forEach(section => {
+            gsap.from(section, {
+                opacity: 0,
+                y: 100,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 80%',
+                    end: 'top 20%',
+                    scrub: 1
+                }
+            });
+        });
+
+        // Custom cursor
+        const cursor = document.createElement('div');
+        cursor.className = 'custom-cursor';
+        document.body.appendChild(cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1
+            });
+        });
+
+        const hoverElements = document.querySelectorAll('.cta-button, .news-item');
+        hoverElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+            });
+        });
+
+        // Particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle', stroke: { width: 0, color: '#000000' }, polygon: { nb_sides: 5 }, image: { src: 'img/github.svg', width: 100, height: 100 } },
+                opacity: { value: 0.5, random: false, anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 3, random: true, anim: { enable: false, speed: 40, size_min: 0.1, sync: false } },
+                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false, attract: { enable: false, rotateX: 600, rotateY: 1200 } }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: { grab: { distance: 400, line_linked: { opacity: 1 } }, bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, repulse: { distance: 200, duration: 0.4 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } }
+            },
+            retina_detect: true
+        });
+
+        // 平滑滚动锚点链接
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                gsap.to(window, {duration: 1, scrollTo: target, ease: 'power3.inOut'});
+            });
+        });
+
+        // 鼠标悬停时动画新闻项目
+        gsap.utils.toArray('.news-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                gsap.to(item, {scale: 1.05, duration: 0.3, ease: 'power2.out'});
+            });
+            item.addEventListener('mouseleave', () => {
+                gsap.to(item, {scale: 1, duration: 0.3, ease: 'power2.out'});
+            });
+        });
+
+        // 英雄标题的文本扰乱效果
+        class TextScramble {
+            constructor(el) {
+                this.el = el;
+                this.chars = '!<>-_\\/[]{}—=+*^?#________';
+                this.update = this.update.bind(this);
+            }
+            setText(newText) {
+                const oldText = this.el.innerText;
+                const length = Math.max(oldText.length, newText.length);
+                const promise = new Promise((resolve) => this.resolve = resolve);
+                this.queue = [];
+                for (let i = 0; i < length; i++) {
+                    const from = oldText[i] || '';
+                    const to = newText[i] || '';
+                    const start = Math.floor(Math.random() * 40);
+                    const end = start + Math.floor(Math.random() * 40);
+                    this.queue.push({ from, to, start, end });
+                }
+                cancelAnimationFrame(this.frameRequest);
+                this.frame = 0;
+                this.update();
+                return promise;
+            }
+            update() {
+                let output = '';
+                let complete = 0;
+                for (let i = 0, n = this.queue.length; i < n; i++) {
+                    let { from, to, start, end, char } = this.queue[i];
+                    if (this.frame >= end) {
+                        complete++;
+                        output += to;
+                    } else if (this.frame >= start) {
+                        if (!char || Math.random() < 0.28) {
+                            char = this.randomChar();
+                            this.queue[i].char = char;
+                        }
+                        output += `<span class="dud">${char}</span>`;
+                    } else {
+                        output += from;
+                    }
+                }
+                this.el.innerHTML = output;
+                if (complete === this.queue.length) {
+                    this.resolve();
+                } else {
+                    this.frameRequest = requestAnimationFrame(this.update);
+                    this.frame++;
+                }
+            }
+            randomChar() {
+                return this.chars[Math.floor(Math.random() * this.chars.length)];
+            }
+        }
+
+        const phrases = [
+            '开启你的未来之门',
+            '追求卓越',
+            '成就梦想',
+            '山大附中欢迎你'
+        ];
+
+        const el = document.querySelector('.hero-title');
+        const fx = new TextScramble(el);
+
+        let counter = 0;
+        const next = () => {
+            fx.setText(phrases[counter]).then(() => {
+                setTimeout(next, 2000);
+            });
+            counter = (counter + 1) % phrases.length;
+        };
+
+        next();
+    });
+</script>
+{% endblock %}

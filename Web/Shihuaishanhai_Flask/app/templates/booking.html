@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>预订房间</h1>
+    <form method="POST">
+        <label for="name">姓名:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">邮箱:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="check_in">入住日期:</label>
+        <input type="date" id="check_in" name="check_in" required><br>
+
+        <label for="check_out">退房日期:</label>
+        <input type="date" id="check_out" name="check_out" required><br>
+
+        <label for="room_id">选择房间:</label>
+        <select id="room_id" name="room_id" required>
+            {% for room in rooms %}
+                <option value="{{ room.id }}">{{ room.name }} - ¥{{ room.price }}/晚</option>
+            {% endfor %}
+        </select><br>
+
+        <input type="submit" value="预订">
+    </form>
+{% endblock %}

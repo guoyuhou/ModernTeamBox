@@ -1,0 +1,196 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}五子棋游戏{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            padding: 0 20px;
+            height: var(--header-height);
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            transform: scaleX(1);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: calc(var(--header-height) + 20px) auto 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            min-height: calc(100vh - var(--header-height) - 100px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                height: auto;
+                padding: 10px 0;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            main {
+                margin-top: calc(var(--header-height) * 2);
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+    {% csrf_token %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> 首页</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'lobby' %}"><i class="fas fa-gamepad"></i> 游戏大厅</a></li>
+                    <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> 个人资料</a></li>
+                    <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> 登出</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> 登录</a></li>
+                    <li><a href="{% url 'register' %}"><i class="fas fa-user-plus"></i> 注册</a></li>
+                {% endif %}
+                <li><a href="{% url 'leaderboard' %}"><i class="fas fa-trophy"></i> 排行榜</a></li>
+                <li><a href="{% url 'game_history' %}"><i class="fas fa-history"></i> 对战历史</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="fade-in">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2023 五子棋游戏. 保留所有权利。</p>
+    </footer>
+
+    <script>
+        console.log('Base template script started');
+        document.addEventListener('DOMContentLoaded', (event) => {
+            console.log('DOM fully loaded');
+            
+            // 检查主内容区域
+            const mainContent = document.querySelector('main');
+            console.log('Main content area:', mainContent);
+            if (mainContent) {
+                console.log('Main content dimensions:', mainContent.getBoundingClientRect());
+            }
+
+            // 修改 GSAP 动画
+            gsap.from("nav ul li", {
+                opacity: 0,
+                y: -50,
+                stagger: 0.1,
+                duration: 0.5,
+                ease: "power2.out"
+            });
+
+            gsap.from("main", {
+                opacity: 0,
+                y: 50,
+                duration: 0.5,
+                ease: "power2.out",
+                onComplete: () => {
+                    console.log('Main content animation completed');
+                    // 确保主内容在动画完成后可见
+                    gsap.set("main", { clearProps: "all" });
+                }
+            });
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

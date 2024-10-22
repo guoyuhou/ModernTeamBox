@@ -1,0 +1,378 @@
+{% extends 'base.html' %}
+
+{% block title %}公司数据 - 山东鑫阳化工{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background-color: #f0f2f5;
+        color: #333;
+        font-family: 'Roboto', sans-serif;
+    }
+    .data-header {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .data-header h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 2;
+    }
+    .data-header p {
+        font-size: 1.2rem;
+        position: relative;
+        z-index: 2;
+    }
+    .data-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>') 0 0 repeat;
+        animation: rotate 60s linear infinite;
+        z-index: 1;
+    }
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .data-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .chart-container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+    }
+    .chart-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    .chart-title {
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+        color: #2c3e50;
+    }
+    .data-summary {
+        text-align: center;
+        margin-top: 3rem;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .summary-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #2c3e50;
+    }
+    .summary-stats {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+    .stat-item {
+        margin: 1rem;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        min-width: 200px;
+    }
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #3498db;
+        margin-bottom: 0.5rem;
+    }
+    .stat-label {
+        font-size: 1rem;
+        color: #7f8c8d;
+    }
+    #dataTimeline {
+        margin-top: 3rem;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .timeline-title {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        color: #2c3e50;
+    }
+    .timeline-container {
+        position: relative;
+        padding: 2rem 0;
+    }
+    .timeline-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 100%;
+        background-color: #3498db;
+    }
+    .timeline-item {
+        position: relative;
+        margin-bottom: 2rem;
+    }
+    .timeline-content {
+        position: relative;
+        width: 45%;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .timeline-item:nth-child(odd) .timeline-content {
+        left: 55%;
+    }
+    .timeline-date {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #3498db;
+    }
+    .timeline-event {
+        font-size: 1rem;
+        color: #333;
+    }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        background-color: #3498db;
+        border-radius: 50%;
+        transform: translateX(-50%);
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<section class="data-header">
+    <h1>公司数据洞察</h1>
+    <p>探索山东鑫阳化工的成长轨迹与可持续发展成就</p>
+</section>
+
+<div class="data-container">
+    <div class="chart-container">
+        <h2 class="chart-title">年度产量（吨）</h2>
+        <canvas id="productionChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h2 class="chart-title">碳减排量（吨）</h2>
+        <canvas id="carbonChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h2 class="chart-title">客户满意度（%）</h2>
+        <canvas id="satisfactionChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h2 class="chart-title">研发投入（万元）</h2>
+        <canvas id="rdInvestmentChart"></canvas>
+    </div>
+</div>
+
+<div class="data-summary">
+    <h2 class="summary-title">2023年度亮点</h2>
+    <div class="summary-stats">
+        <div class="stat-item">
+            <div class="stat-value" id="productionValue">0</div>
+            <div class="stat-label">年产量（吨）</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="carbonValue">0</div>
+            <div class="stat-label">碳减排量（吨）</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="satisfactionValue">0</div>
+            <div class="stat-label">客户满意度</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="rdValue">0</div>
+            <div class="stat-label">研发投入（万元）</div>
+        </div>
+    </div>
+</div>
+
+<div id="dataTimeline">
+    <h2 class="timeline-title">公司发展里程碑</h2>
+    <div class="timeline-container">
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">2010年</div>
+                <div class="timeline-event">山东鑫阳化工成立</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">2015年</div>
+                <div class="timeline-event">年产量突破10万吨</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">2018年</div>
+                <div class="timeline-event">获得ISO 14001环境管理体系认证</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">2020年</div>
+                <div class="timeline-event">启动"绿色化工"计划，致力于可持续发展</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">2023年</div>
+                <div class="timeline-event">碳减排量突破10万吨，树立行业标杆</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const data = JSON.parse('{{ data|safe }}');
+
+    function createChart(canvasId, label, data, color) {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        return new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.map(item => item.year),
+                datasets: [{
+                    label: label,
+                    data: data.map(item => item.value),
+                    borderColor: color,
+                    backgroundColor: color + '20',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+    }
+
+    const charts = [
+        { id: 'productionChart', label: '年度产量', data: data.annual_production, color: '#3498db' },
+        { id: 'carbonChart', label: '碳减排量', data: data.carbon_reduction, color: '#2ecc71' },
+        { id: 'satisfactionChart', label: '客户满意度', data: data.customer_satisfaction, color: '#f1c40f' },
+        { id: 'rdInvestmentChart', label: '研发投入', data: data.rd_investment, color: '#e74c3c' }
+    ];
+
+    charts.forEach(chart => {
+        createChart(chart.id, chart.label, chart.data, chart.color);
+    });
+
+    // 添加图表动画
+    gsap.utils.toArray('.chart-container').forEach(container => {
+        gsap.from(container, {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: container,
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+    });
+
+    // 数据汇总动画
+    const summaryStats = [
+        { id: 'productionValue', value: data.annual_production[data.annual_production.length - 1].value },
+        { id: 'carbonValue', value: data.carbon_reduction[data.carbon_reduction.length - 1].value },
+        { id: 'satisfactionValue', value: data.customer_satisfaction[data.customer_satisfaction.length - 1].value },
+        { id: 'rdValue', value: data.rd_investment[data.rd_investment.length - 1].value }
+    ];
+
+    summaryStats.forEach(stat => {
+        const element = document.getElementById(stat.id);
+        gsap.to(element, {
+            innerHTML: stat.value,
+            duration: 2,
+            ease: 'power1.out',
+            scrollTrigger: {
+                trigger: element,
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+            },
+            onUpdate: function() {
+                element.innerHTML = Math.round(this.targets()[0].innerHTML);
+            }
+        });
+    });
+
+    // 时间线动画
+    gsap.utils.toArray('.timeline-item').forEach((item, index) => {
+        gsap.from(item, {
+            opacity: 0,
+            x: index % 2 === 0 ? -50 : 50,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: item,
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+    });
+
+    // 交互效果
+    const chartContainers = document.querySelectorAll('.chart-container');
+    chartContainers.forEach(container => {
+        container.addEventListener('mouseenter', () => {
+            gsap.to(container, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
+        });
+        container.addEventListener('mouseleave', () => {
+            gsap.to(container, { scale: 1, duration: 0.3, ease: 'power2.out' });
+        });
+    });
+</script>
+{% endblock %}

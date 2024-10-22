@@ -1,0 +1,381 @@
+{% extends 'base.html' %}
+
+{% block title %}合作案例{% endblock %}
+
+{% block extra_css %}
+<style>
+    .cooperation-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 8rem 0 6rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .cooperation-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+        background-size: cover;
+        opacity: 0.1;
+        z-index: 0;
+    }
+    .cooperation-header-content {
+        position: relative;
+        z-index: 1;
+    }
+    .cooperation-header h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .cooperation-header p {
+        font-size: 1.5rem;
+        max-width: 600px;
+        margin: 0 auto;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    .case-studies {
+        max-width: 1200px;
+        margin: 5rem auto;
+        padding: 0 2rem;
+    }
+    .case-study {
+        display: flex;
+        margin-bottom: 5rem;
+        background-color: #fff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    .case-study:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    .case-study-image {
+        flex: 1;
+        min-height: 400px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .case-study-image::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+    }
+    .case-study-content {
+        flex: 2;
+        padding: 3rem;
+        position: relative;
+    }
+    .case-study-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: #333;
+    }
+    .case-study-description {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+    .case-study-result {
+        font-weight: bold;
+        color: #4a4a4a;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    .testimonial {
+        font-style: italic;
+        margin-top: 1.5rem;
+        padding: 1.5rem;
+        background-color: #f9f9f9;
+        border-left: 4px solid #764ba2;
+        position: relative;
+    }
+    .testimonial::before {
+        content: '"';
+        font-size: 4rem;
+        color: #764ba2;
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        opacity: 0.2;
+    }
+    .case-study-icon {
+        position: absolute;
+        top: -30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background-color: #764ba2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        box-shadow: 0 5px 15px rgba(118,75,162,0.3);
+    }
+    .stats {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+    }
+    .stat {
+        text-align: center;
+    }
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #764ba2;
+        margin-bottom: 0.5rem;
+    }
+    .stat-label {
+        font-size: 1rem;
+        color: #666;
+    }
+    @media (max-width: 768px) {
+        .case-study {
+            flex-direction: column;
+        }
+        .case-study-image {
+            min-height: 250px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="cooperation-header">
+    <div class="cooperation-header-content">
+        <h1>合作案例</h1>
+        <p>携手客户，创新共赢，引领行业发展</p>
+    </div>
+</section>
+
+<section class="case-studies">
+    <div class="case-study">
+        <div class="case-study-image" style="background-image: url('https://images.unsplash.com/photo-1565008447742-97f6f38c985c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="case-study-content">
+            <div class="case-study-icon">
+                <i class="fas fa-car"></i>
+            </div>
+            <h2 class="case-study-title">汽车制造业解决方案</h2>
+            <p class="case-study-description">为某知名汽车制造商提供高性能聚合物材料，用于汽车内饰和外部零件的生产。我们的材料不仅提高了产品的耐用性和美观度，还减轻了车辆重量，提高了燃油效率。</p>
+            <p class="case-study-result">结果：客户的产品质量提升了15%，同时生产成本降低了8%。</p>
+            <div class="testimonial">
+                "山东鑫阳化工的创新材料为我们的产品带来了显著的竞争优势。他们的团队不仅提供了高质量的产品，还为我们提供了全面的技术支持。" - 张明，汽车制造商项目经理
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">15%</div>
+                    <div class="stat-label">质量提升</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">8%</div>
+                    <div class="stat-label">成本降低</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">20%</div>
+                    <div class="stat-label">效率提升</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="case-study">
+        <div class="case-study-image" style="background-image: url('https://images.unsplash.com/photo-1530983822321-f5afe5cc8c0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="case-study-content">
+            <div class="case-study-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h2 class="case-study-title">电子产品防水涂层</h2>
+            <p class="case-study-description">为一家领先的电子产品制造商开发了一种创新的纳米级防水涂层。这种涂层可以有效保护电子设备免受水和湿气的侵害，同时不影响设备的性能和外观。</p>
+            <p class="case-study-result">结果：客户的产品防水等级从IPX4提升到IPX7，大大增强了产品的竞争力。</p>
+            <div class="testimonial">
+                "鑫阳化工的防水涂层技术帮助我们的产品在市场上脱颖而出。他们的创新解决方案为我们带来了巨大的市场优势。" - 李华，电子产品制造商研发主管
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">IPX7</div>
+                    <div class="stat-label">防水等级</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">30%</div>
+                    <div class="stat-label">市场份额增长</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">50%</div>
+                    <div class="stat-label">客户满意度提升</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="case-study">
+        <div class="case-study-image" style="background-image: url('https://images.unsplash.com/photo-1473876637954-4b493d59fd97?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="case-study-content">
+            <div class="case-study-icon">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <h2 class="case-study-title">农业用环保除草剂</h2>
+            <p class="case-study-description">为农业领域开发了一种高效、低毒的环保除草剂。这种产品不仅能有效控制杂草，还能快速降解，不会对土壤和水源造成长期污染。</p>
+            <p class="case-study-result">结果：客户的农作物产量提高了20%，同时显著减少了对环境的负面影响。</p>
+            <div class="testimonial">
+                "鑫阳化工的环保除草剂帮助我们实现了增产增收和可持续发展的双赢。他们对环境保护的承诺与我们的价值观完全一致。" - 王强，大型农业公司总经理
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">20%</div>
+                    <div class="stat-label">产量提升</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">40%</div>
+                    <div class="stat-label">环境影响降低</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">25%</div>
+                    <div class="stat-label">成本节约</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 页面加载动画
+    gsap.from('.cooperation-header-content', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power3.out'
+    });
+
+    // 案例研究动画
+    gsap.utils.toArray('.case-study').forEach((caseStudy, index) => {
+        gsap.from(caseStudy, {
+            opacity: 0,
+            y: 100,
+            duration: 1,
+            delay: 0.2 * index, // 添加延迟，使动画依次触发
+            ease: 'power3.out'
+        });
+
+        // 图标动画
+        gsap.from(caseStudy.querySelector('.case-study-icon'), {
+            scale: 0,
+            rotation: 360,
+            duration: 0.5,
+            delay: 0.5 + 0.2 * index,
+            ease: 'back.out(1.7)'
+        });
+
+        // 统计数据动画
+        caseStudy.querySelectorAll('.stat-value').forEach((stat) => {
+            let endValue = parseFloat(stat.textContent);
+            gsap.from(stat, {
+                textContent: 0,
+                duration: 2,
+                delay: 1 + 0.2 * index,
+                ease: 'power1.out',
+                onUpdate: function() {
+                    this.targets()[0].innerHTML = Math.round(this.targets()[0].textContent) + (stat.textContent.indexOf('%') !== -1 ? '%' : '');
+                }
+            });
+        });
+    });
+
+    // 视差滚动效果
+    gsap.utils.toArray('.case-study-image').forEach((image) => {
+        gsap.to(image, {
+            yPercent: -20,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: image.parentElement,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+    });
+
+    // testimonial 动画
+    gsap.utils.toArray('.testimonial').forEach((testimonial, index) => {
+        gsap.from(testimonial, {
+            opacity: 0,
+            x: -50,
+            duration: 1,
+            delay: 0.5 + 0.2 * index,
+            ease: 'power3.out'
+        });
+    });
+
+    // 添加滚动进度指示器
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    progressBar.style.position = 'fixed';
+    progressBar.style.top = '0';
+    progressBar.style.left = '0';
+    progressBar.style.height = '4px';
+    progressBar.style.width = '0%';
+    progressBar.style.backgroundColor = '#764ba2';
+    progressBar.style.zIndex = '9999';
+    document.body.appendChild(progressBar);
+
+    gsap.to(progressBar, {
+        width: '100%',
+        ease: 'none',
+        scrollTrigger: { 
+            scrub: 0.3
+        }
+    });
+});
+
+// 鼠标悬停效果
+document.querySelectorAll('.case-study').forEach((caseStudy) => {
+    const image = caseStudy.querySelector('.case-study-image');
+    caseStudy.addEventListener('mouseenter', () => {
+        gsap.to(image, { scale: 1.1, duration: 0.5, ease: 'power2.out' });
+    });
+    caseStudy.addEventListener('mouseleave', () => {
+        gsap.to(image, { scale: 1, duration: 0.5, ease: 'power2.out' });
+    });
+});
+
+// 添加交互式元素
+document.querySelectorAll('.case-study-title').forEach((title) => {
+    title.addEventListener('click', () => {
+        const content = title.nextElementSibling;
+        const isExpanded = content.style.maxHeight;
+        if (!isExpanded) {
+            content.style.maxHeight = content.scrollHeight + 'px';
+            gsap.to(title, { color: '#764ba2', duration: 0.3 });
+        } else {
+            content.style.maxHeight = null;
+            gsap.to(title, { color: '#333', duration: 0.3 });
+        }
+    });
+});
+</script>
+{% endblock %}

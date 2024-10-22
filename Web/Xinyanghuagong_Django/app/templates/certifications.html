@@ -1,0 +1,376 @@
+{% extends 'base.html' %}
+
+{% block title %}认证与可持续发展{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #2ecc71;
+        --secondary-color: #27ae60;
+        --text-color: #333;
+        --bg-color: #f9f9f9;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+    }
+
+    .certifications-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 8rem 0 6rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .certifications-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+        background-size: cover;
+        opacity: 0.2;
+        z-index: 0;
+    }
+
+    .certifications-header-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .certifications-header h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .certifications-header p {
+        font-size: 1.5rem;
+        max-width: 600px;
+        margin: 0 auto;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .certifications-content {
+        max-width: 1200px;
+        margin: 5rem auto;
+        padding: 0 2rem;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+        color: var(--primary-color);
+    }
+
+    .certification-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 3rem;
+    }
+
+    .certification-item {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        padding: 2rem;
+        text-align: center;
+        width: 250px;
+        transition: all 0.3s ease;
+    }
+
+    .certification-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .certification-icon {
+        font-size: 4rem;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+    }
+
+    .certification-item h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .certification-item p {
+        font-size: 1rem;
+        color: #666;
+    }
+
+    .sustainability-initiatives {
+        margin-top: 6rem;
+    }
+
+    .initiative {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .initiative:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .initiative h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+
+    .initiative p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    .eco-stats {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 4rem;
+        flex-wrap: wrap;
+    }
+
+    .eco-stat {
+        text-align: center;
+        margin: 1rem;
+    }
+
+    .eco-stat-value {
+        font-size: 3rem;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    .eco-stat-label {
+        font-size: 1.2rem;
+        color: #666;
+    }
+
+    .cta-section {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        text-align: center;
+        padding: 4rem 2rem;
+        margin-top: 6rem;
+        border-radius: 10px;
+    }
+
+    .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .cta-section p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+    }
+
+    .cta-button {
+        display: inline-block;
+        background-color: white;
+        color: var(--primary-color);
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+        background-color: var(--text-color);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<section class="certifications-header">
+    <div class="certifications-header-content">
+        <h1>认证与可持续发展</h1>
+        <p>我们的承诺：为地球、为未来</p>
+    </div>
+</section>
+
+<section class="certifications-content">
+    <h2 class="section-title">我们的认证</h2>
+    <p class="section-description">山东鑫阳化工致力于维持最高的质量、安全和环保标准。我们获得的国际认证彰显了我们对卓越的不懈追求：</p>
+    
+    <div class="certification-list">
+        <div class="certification-item">
+            <i class="fas fa-certificate certification-icon"></i>
+            <h3>ISO 9001</h3>
+            <p>质量管理体系认证</p>
+        </div>
+        <div class="certification-item">
+            <i class="fas fa-leaf certification-icon"></i>
+            <h3>ISO 14001</h3>
+            <p>环境管理体系认证</p>
+        </div>
+        <div class="certification-item">
+            <i class="fas fa-hard-hat certification-icon"></i>
+            <h3>ISO 45001</h3>
+            <p>职业健康安全管理体系认证</p>
+        </div>
+        <div class="certification-item">
+            <i class="fas fa-flask certification-icon"></i>
+            <h3>REACH</h3>
+            <p>欧盟化学品注册、评估、授权和限制法规</p>
+        </div>
+    </div>
+
+    <div class="sustainability-initiatives">
+        <h2 class="section-title">可持续发展举措</h2>
+        <div class="initiative">
+            <h3><i class="fas fa-industry"></i> 绿色生产</h3>
+            <p>我们不断优化生产工艺，减少能源消耗和废弃物排放。目前，我们的工厂已实现90%的废水回收利用，并将50%的能源需求转向可再生能源。我们的目标是到2025年实现碳中和生产。</p>
+        </div>
+        <div class="initiative">
+            <h3><i class="fas fa-lightbulb"></i> 产品创新</h3>
+            <p>我们的研发团队致力于开发更加环保、高效的化工产品。近年来，我们推出了多款生物降解材料和水性涂料，帮助客户减少环境足迹。我们承诺到2030年，80%的产品将采用可再生或回收原料。</p>
+        </div>
+        <div class="initiative">
+            <i class="fas fa-recycle"></i>
+            <h3>循环经济</h3>
+            <p>我们正在实施一项雄心勃勃的计划，到2028年将我们的生产过程转变为完全闭环系统。这包括废弃物回收、副产品再利用，以及与客户合作建立产品生命周期结束后的回收计划。</p>
+        </div>
+        <div class="initiative">
+            <h3><i class="fas fa-users"></i> 社区参与</h3>
+            <p>我们积极参与社区环保活动，定期组织员工参加植树造林和环境清洁活动。同时，我们还为当地学校提供化学教育资源，培养下一代的环保意识。我们的目标是每年影响100,000人参与环保行动。</p>
+        </div>
+    </div>
+
+    <div class="eco-stats">
+        <div class="eco-stat">
+            <div class="eco-stat-value">90%</div>
+            <div class="eco-stat-label">废水回收率</div>
+        </div>
+        <div class="eco-stat">
+            <div class="eco-stat-value">50%</div>
+            <div class="eco-stat-label">可再生能源使用</div>
+        </div>
+        <div class="eco-stat">
+            <div class="eco-stat-value">30%</div>
+            <div class="eco-stat-label">碳排放减少</div>
+        </div>
+        <div class="eco-stat">
+            <div class="eco-stat-value">10万+</div>
+            <div class="eco-stat-label">年度环保影响人数</div>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h2>加入我们的绿色革命</h2>
+        <p>每一个行动都能带来改变。了解更多关于我们的可持续发展计划，以及您如何参与其中。</p>
+        <a href="#" class="cta-button">了解更多</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 页面加载动画
+    gsap.from('.certifications-header-content', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power3.out'
+    });
+
+    // 认证项目动画
+    gsap.from('.certification-item', {
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+            trigger: '.certification-list',
+            start: 'top 80%',
+        }
+    });
+
+    // 可持续发展举措动画
+    gsap.from('.initiative', {
+        opacity: 0,
+        x: -50,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+            trigger: '.sustainability-initiatives',
+            start: 'top 80%',
+        }
+    });
+
+    // 生态统计数据动画
+    gsap.from('.eco-stat', {
+        opacity: 0,
+        scale: 0.5,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'back.out(1.7)',
+        scrollTrigger: {
+            trigger: '.eco-stats',
+            start: 'top 80%',
+        }
+    });
+
+    // 数字增长动画
+    gsap.utils.toArray('.eco-stat-value').forEach(stat => {
+        let endValue = parseFloat(stat.textContent);
+        let suffix = stat.textContent.replace(/[0-9.]/g, '');
+        
+        gsap.from(stat, {
+            textContent: 0,
+            duration: 2,
+            ease: 'power1.out',
+            snap: { textContent: 1 },
+            stagger: {
+                each: 0.2,
+                onUpdate: function() {
+                    this.targets()[0].innerHTML = Math.ceil(this.targets()[0].textContent) + suffix;
+                },
+            },
+            scrollTrigger: {
+                trigger: '.eco-stats',
+                start: 'top 80%',
+            }
+        });
+    });
+
+    // CTA部分动画
+    gsap.from('.cta-section', {
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+            trigger: '.cta-section',
+            start: 'top 80%',
+        }
+    });
+</script>
+{% endblock %}

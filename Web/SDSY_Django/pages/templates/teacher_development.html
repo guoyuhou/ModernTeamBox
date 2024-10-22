@@ -1,0 +1,539 @@
+{% extends "base.html" %}
+
+{% block title %}教师发展 - 开启教育新纪元{% endblock %}
+
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #50c878;
+        --accent-color: #ff6b6b;
+        --bg-color: #f0f4f8;
+        --text-color: #333;
+        --white: #ffffff;
+    }
+
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', 'Noto Sans SC', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+    }
+
+    .teacher-development {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .parallax-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+        background-size: cover;
+        background-position: center;
+        transform: translateZ(-1px) scale(2);
+        z-index: -1;
+    }
+
+    .content-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory;
+    }
+
+    .section {
+        height: 100vh;
+        scroll-snap-align: start;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.8), rgba(80, 200, 120, 0.8));
+    }
+
+    .hero-content {
+        text-align: center;
+        color: var(--white);
+        z-index: 2;
+    }
+
+    .hero-title {
+        font-size: 5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        animation: glowText 2s infinite alternate;
+    }
+
+    @keyframes glowText {
+        from {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px var(--primary-color), 0 0 35px var(--primary-color), 0 0 40px var(--primary-color), 0 0 50px var(--primary-color), 0 0 75px var(--primary-color);
+        }
+        to {
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px var(--secondary-color), 0 0 70px var(--secondary-color), 0 0 80px var(--secondary-color), 0 0 100px var(--secondary-color), 0 0 150px var(--secondary-color);
+        }
+    }
+
+    .hero-subtitle {
+        font-size: 1.8rem;
+        opacity: 0.9;
+        margin-bottom: 30px;
+    }
+
+    .cta-button {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        background-color: var(--accent-color);
+        color: var(--white);
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .cta-button:hover {
+        background-color: var(--primary-color);
+        transform: scale(1.05);
+    }
+
+    .development-programs {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+
+    .program-card {
+        width: 300px;
+        height: 400px;
+        background-color: var(--white);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        perspective: 1000px;
+    }
+
+    .program-card:hover {
+        transform: translateY(-10px) rotateY(10deg);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .program-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        transition: all 0.5s ease;
+    }
+
+    .program-info {
+        padding: 20px;
+        transform: translateZ(20px);
+    }
+
+    .program-title {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .program-description {
+        color: var(--text-color);
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .news-section {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .news-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .news-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .news-item {
+        background-color: var(--bg-color);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        transform-style: preserve-3d;
+    }
+
+    .news-item:hover {
+        transform: translateY(-10px) rotateX(5deg);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .news-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .news-content {
+        padding: 20px;
+        transform: translateZ(30px);
+    }
+
+    .news-date {
+        font-size: 0.9rem;
+        color: var(--secondary-color);
+        margin-bottom: 10px;
+    }
+
+    .news-title {
+        font-size: 1.3rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .news-excerpt {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--text-color);
+    }
+
+    .scroll-indicator {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 50px;
+        border: 2px solid var(--white);
+        border-radius: 25px;
+    }
+
+    .scroll-indicator::before {
+        content: '';
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        background-color: var(--white);
+        border-radius: 50%;
+        transform: translateX(-50%);
+        animation: scrollAnimation 2s infinite;
+    }
+
+    @keyframes scrollAnimation {
+        0% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+        }
+    }
+
+    .custom-cursor {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--primary-color);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transition: all 0.3s ease;
+        transform: translate(-50%, -50%);
+    }
+
+    .custom-cursor.hover {
+        transform: translate(-50%, -50%) scale(2);
+        background-color: var(--primary-color);
+        opacity: 0.5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="teacher-development">
+    <div class="parallax-bg"></div>
+    <div class="content-wrapper">
+        <section class="section hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">教师发展</h1>
+                <p class="hero-subtitle">开启教育新纪元，塑造未来领袖</p>
+                <a href="#programs" class="cta-button">探索发展项目</a>
+            </div>
+            <div class="scroll-indicator"></div>
+        </section>
+
+        <section id="programs" class="section">
+            <div class="development-programs">
+                {% for program in content.development_programs %}
+                    <div class="program-card">
+                        <div class="program-image" style="background-image: url('');"></div>
+                        <div class="program-info">
+                            <h3 class="program-title">{{ program }}</h3>
+                            <p class="program-description">通过{{ program }}，我们致力于提升教师的专业能力和职业发展。</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="section news-section">
+            <div class="news-container">
+                <h2 class="section-title">热门资讯</h2>
+                <div class="news-list">
+                    <div class="news-item">
+                        <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                        <div class="news-content">
+                            <div class="news-date">2023年5月15日</div>
+                            <h3 class="news-title">教育部发布新一轮教师培训计划</h3>
+                            <p class="news-excerpt">教育部近日公布了2023-2025年度全国教师培训计划，旨在提升教师队伍整体素质，推动教育事业高质量发展。</p>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                        <div class="news-content">
+                            <div class="news-date">2023年5月10日</div>
+                            <h3 class="news-title">国际教育论坛在京召开</h3>
+                            <p class="news-excerpt">来自全球50多个国家的教育专家齐聚北京，共同探讨后疫情时代的教育创新与发展。</p>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1122&q=80');"></div>
+                        <div class="news-content">
+                            <div class="news-date">2023年5月5日</div>
+                            <h3 class="news-title">人工智能在教育领域的应用研讨会</h3>
+                            <p class="news-excerpt">多所高校联合举办研讨会，探讨AI技术如何赋能教育，推动智慧教育发展。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const programImages = [
+            'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+            'https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+            'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1122&q=80'
+        ];
+
+        // Hero section animations
+        gsap.from('.hero-title', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.hero-subtitle', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            delay: 0.3,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.cta-button', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            delay: 0.6,
+            ease: 'power3.out'
+        });
+
+        // Parallax effect
+        gsap.to('.parallax-bg', {
+            yPercent: 50,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.teacher-development',
+                scrub: true
+            }
+        });
+
+        // Animate program cards on scroll
+        gsap.utils.toArray('.program-card').forEach((card, index) => {
+            gsap.from(card, {
+                opacity: 0,
+                y: 100,
+                rotation: 5,
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top bottom-=100',
+                    end: 'top center',
+                    scrub: 1
+                }
+            });
+        });
+
+        // News items animation
+        gsap.utils.toArray('.news-item').forEach((item, index) => {
+            gsap.from(item, {
+                opacity: 0,
+                x: index % 2 === 0 ? -100 : 100,
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top bottom-=100',
+                    end: 'top center',
+                    scrub: 1
+                }
+            });
+        });
+
+        // Custom cursor
+        const cursor = document.createElement('div');
+        cursor.className = 'custom-cursor';
+        document.body.appendChild(cursor);
+
+        gsap.set(cursor, {xPercent: -50, yPercent: -50});
+
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                duration: 0.5,
+                x: e.clientX,
+                y: e.clientY,
+                ease: 'power2.out'
+            });
+        });
+
+        const hoverElements = document.querySelectorAll('.program-card, .news-item, .cta-button');
+        hoverElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+                gsap.to(element, {scale: 1.05, duration: 0.3, ease: 'power2.out'});
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+                gsap.to(element, {scale: 1, duration: 0.3, ease: 'power2.out'});
+            });
+        });
+
+        // Set program images with a twist
+        const programCards = document.querySelectorAll('.program-card');
+        programCards.forEach((card, index) => {
+            const image = card.querySelector('.program-image');
+            gsap.to(image, {
+                backgroundImage: `url('${programImages[index % programImages.length]}')`,
+                duration: 1,
+                ease: 'power2.inOut',
+                delay: index * 0.2
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                gsap.to(window, {duration: 1, scrollTo: target, ease: 'power3.inOut'});
+            });
+        });
+
+        // Interactive particle system
+        const canvas = document.createElement('canvas');
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '1';
+        document.body.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.size > 0.2) this.size -= 0.1;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function createParticles(e) {
+            const xPos = e.x;
+            const yPos = e.y;
+            for (let i = 0; i < 5; i++) {
+                particles.push(new Particle(xPos, yPos));
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                if (particles[i].size <= 0.2) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('mousemove', createParticles);
+        animateParticles();
+    });
+</script>
+{% endblock %}

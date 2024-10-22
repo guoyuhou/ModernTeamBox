@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}首页 - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+        background-size: cover;
+        background-position: center;
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+    }
+    .news-section {
+        padding: 50px 0;
+    }
+    .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .news-item {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h1>{{ content.hero_title }}</h1>
+        <p>{{ content.hero_subtitle }}</p>
+    </div>
+</section>
+
+<section class="news-section">
+    <div class="container">
+        <h2>最新动态</h2>
+        <div class="news-grid">
+            {% for news in content.news %}
+            <div class="news-item">
+                <h3>{{ news.title }}</h3>
+                <p>{{ news.summary }}</p>
+                <a href="{{ news.link }}">阅读更多</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 添加首页特定的JavaScript
+</script>
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: translateY(20px);
+        opacity: 0;
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .login-container h2 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+        font-weight: bold;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+
+    .submit-btn {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.75rem;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .register-link {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .register-link a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    .register-link a:hover {
+        color: #2980b9;
+    }
+
+    .login-icon {
+        text-align: center;
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    @media (max-width: 480px) {
+        .login-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-icon">
+        <i class="fas fa-chess-pawn"></i>
+    </div>
+    <h2>欢迎回来</h2>
+    <form method="POST" class="login-form">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="submit-btn">登录</button>
+    </form>
+    <p class="register-link">还没有账号？ <a href="{% url 'register' %}">立即注册</a></p>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const formInputs = document.querySelectorAll('.login-form input');
+        
+        formInputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('input-focus');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('input-focus');
+            });
+        });
+
+        gsap.from(".login-icon", {
+            rotationY: 360,
+            opacity: 0,
+            duration: 1,
+            ease: "back.out(1.7)"
+        });
+
+        gsap.from(".form-group", {
+            opacity: 0,
+            y: 20,
+            stagger: 0.2,
+            duration: 0.8,
+            ease: "power2.out"
+        });
+
+        gsap.from(".submit-btn, .register-link", {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            delay: 0.6,
+            ease: "power2.out"
+        });
+    });
+</script>
+{% endblock extra_js %}

@@ -1,0 +1,66 @@
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(15, 30px);
+    grid-template-rows: repeat(15, 30px);
+    gap: 1px;
+    background-color: #deb887;
+    padding: 10px;
+    border: 2px solid #8b4513;
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    background-color: #deb887;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.cell::before, .cell::after {
+    content: '';
+    position: absolute;
+    background-color: #000;
+}
+
+.cell::before {
+    width: 100%;
+    height: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.cell::after {
+    width: 1px;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.piece {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.piece.black {
+    background-color: #000;
+}
+
+.piece.white {
+    background-color: #fff;
+    border: 1px solid #000;
+}
+
+.game-info {
+    margin-top: 20px;
+    font-size: 18px;
+}

@@ -1,0 +1,522 @@
+{% extends "base.html" %}
+
+{% block title %}党建之窗 - 引领教育新时代{% endblock %}
+
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+    :root {
+        --primary-color: #e74c3c;
+        --secondary-color: #f39c12;
+        --bg-color: #f9f9f9;
+        --text-color: #333;
+        --white: #ffffff;
+    }
+
+    body {
+        font-family: 'Noto Sans SC', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        overflow-x: hidden;
+    }
+
+    .party-building {
+        padding: 0;
+    }
+
+    .hero-section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        text-align: center;
+        z-index: 2;
+        color: var(--white);
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        opacity: 0.9;
+    }
+
+    .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('https://images.unsplash.com/photo-1572289758057-3b6b1d0e2e2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.2;
+        z-index: 1;
+    }
+
+    .section {
+        padding: 100px 0;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 50px;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 3px;
+        background-color: var(--secondary-color);
+        margin: 20px auto 0;
+    }
+
+    .activities-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+    }
+
+    .activity-item {
+        background-color: var(--white);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+    }
+
+    .activity-item:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .activity-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        transition: all 0.5s ease;
+    }
+
+    .activity-item:hover .activity-image {
+        transform: scale(1.1);
+    }
+
+    .activity-info {
+        padding: 20px;
+    }
+
+    .activity-title {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .activity-description {
+        color: var(--text-color);
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .news-section {
+        background-color: var(--white);
+        padding: 100px 0;
+    }
+
+    .news-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .news-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .news-item {
+        background-color: var(--bg-color);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .news-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .news-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .news-content {
+        padding: 20px;
+    }
+
+    .news-date {
+        font-size: 0.9rem;
+        color: var(--secondary-color);
+        margin-bottom: 10px;
+    }
+
+    .news-title {
+        font-size: 1.2rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .news-excerpt {
+        font-size: 1rem;
+        color: var(--text-color);
+        line-height: 1.6;
+    }
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .scroll-to-top:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .scroll-to-top.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .custom-cursor {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--primary-color);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transition: all 0.3s ease;
+        transform: translate(-50%, -50%);
+    }
+
+    .custom-cursor.hover {
+        transform: translate(-50%, -50%) scale(2);
+        background-color: var(--primary-color);
+        opacity: 0.5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="party-building">
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">党建之窗</h1>
+            <p class="hero-subtitle">引领教育新时代，共创美好未来</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">党建动态</h2>
+            <div class="activities-list">
+                {% for activity in content.activities %}
+                    <div class="activity-item">
+                        <div class="activity-image" style="background-image: url('');"></div>
+                        <div class="activity-info">
+                            <h3 class="activity-title">{{ activity }}</h3>
+                            <p class="activity-description">我们通过{{ activity }}加强党的建设，提高党员素质。</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section">
+        <div class="container news-container">
+            <h2 class="section-title">热门资讯</h2>
+            <div class="news-list">
+                {% for news in content.news %}
+                    <div class="news-item">
+                        <div class="news-image" style="background-image: url('');"></div>
+                        <div class="news-content">
+                            <div class="news-date">{{ news.date }}</div>
+                            <h3 class="news-title">{{ news.title }}</h3>
+                            <p class="news-excerpt">{{ news.excerpt }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <div class="scroll-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const activityImages = [
+            'https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+            'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+            'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80',
+            'https://images.unsplash.com/photo-1517502884422-41eaead166d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80'
+        ];
+
+        const newsImages = [
+            'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80',
+            'https://images.unsplash.com/photo-1517502884422-41eaead166d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80',
+            'https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
+        ];
+
+        // Hero section animations
+        gsap.from('.hero-title', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.hero-subtitle', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            delay: 0.3,
+            ease: 'power3.out'
+        });
+
+        // Animate activity items on scroll
+        gsap.from('.activity-item', {
+            scrollTrigger: {
+                trigger: '.activities-list',
+                start: 'top 80%'
+            },
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power3.out'
+        });
+
+        // Animate news items on scroll
+        gsap.from('.news-item', {
+            scrollTrigger: {
+                trigger: '.news-list',
+                start: 'top 80%'
+            },
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power3.out'
+        });
+
+        // Parallax effect for activity images
+        gsap.utils.toArray('.activity-image').forEach(image => {
+            gsap.to(image, {
+                backgroundPosition: `50% ${innerHeight / 2}px`,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: image,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        });
+
+        // Scroll to top functionality
+        const scrollToTopBtn = document.querySelector('.scroll-to-top');
+        gsap.to(scrollToTopBtn, {
+            scrollTrigger: {
+                trigger: 'body',
+                start: '100px top',
+                end: '+=300',
+                toggleActions: 'play none none reverse'
+            },
+            opacity: 1,
+            duration: 0.3
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            gsap.to(window, {duration: 1, scrollTo: 0, ease: 'power3.inOut'});
+        });
+
+        // Custom cursor
+        const cursor = document.createElement('div');
+        cursor.className = 'custom-cursor';
+        document.body.appendChild(cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1
+            });
+        });
+
+        const hoverElements = document.querySelectorAll('.activity-item, .news-item, .scroll-ity-item, .news-item, .scroll-to-top');
+        hoverElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+            });
+        });
+
+        // Set activity images
+        const activityItems = document.querySelectorAll('.activity-item');
+        activityItems.forEach((item, index) => {
+            const image = item.querySelector('.activity-image');
+            image.style.backgroundImage = `url('${activityImages[index % activityImages.length]}')`;
+        });
+
+        // Set news images
+        const newsItems = document.querySelectorAll('.news-item');
+        newsItems.forEach((item, index) => {
+            const image = item.querySelector('.news-image');
+            image.style.backgroundImage = `url('${newsImages[index % newsImages.length]}')`;
+        });
+
+        // Add hover effect to activity and news items
+        const allItems = document.querySelectorAll('.activity-item, .news-item');
+        allItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                gsap.to(item, {scale: 1.05, duration: 0.3, ease: 'power2.out'});
+            });
+            item.addEventListener('mouseleave', () => {
+                gsap.to(item, {scale: 1, duration: 0.3, ease: 'power2.out'});
+            });
+        });
+
+        // Animate section titles
+        gsap.utils.toArray('.section-title').forEach(title => {
+            gsap.from(title, {
+                scrollTrigger: {
+                    trigger: title,
+                    start: 'top 80%',
+                },
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                ease: 'power3.out'
+            });
+        });
+
+        // Add a particle system for visual interest
+        const canvas = document.createElement('canvas');
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '1';
+        document.body.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+                this.color = `hsl(${Math.random() * 60 + 330}, 100%, 50%)`;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.size > 0.2) this.size -= 0.1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function createParticles(e) {
+            const xPos = e.x;
+            const yPos = e.y;
+            for (let i = 0; i < 5; i++) {
+                particles.push(new Particle(xPos, yPos));
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                if (particles[i].size <= 0.2) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('mousemove', createParticles);
+        animateParticles();
+    });
+</script>
+{% endblock %}

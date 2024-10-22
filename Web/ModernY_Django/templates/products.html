@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}创新产品 | ModernY{% endblock %}
+
+{% block content %}
+<section class="hero fullscreen-image">
+    <div class="hero-background" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="futuristic-title">
+            <span class="letter">创</span>
+            <span class="letter">新</span>
+            <span class="letter">产</span>
+            <span class="letter">品</span>
+        </h1>
+        <p class="tagline">引领科技，改变未来</p>
+    </div>
+</section>
+
+<section class="product-showcase">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">我们的产品线</h2>
+        <div class="product-grid">
+            <div class="product-card" data-aos="fade-up">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1558002038-1055907df827?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="智能家居系统">
+                </div>
+                <h3>智能家居系统</h3>
+                <p>打造舒适、高效的智能生活空间</p>
+                <a href="#smart-home" class="btn btn-outline product-details-btn">了解更多</a>
+            </div>
+            <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1506&q=80" alt="AI助手">
+                </div>
+                <h3>AI助手</h3>
+                <p>您的个人智能助理，提高工作效率</p>
+                <a href="#ai-assistant" class="btn btn-outline product-details-btn">了解更多</a>
+            </div>
+            <div class="product-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="数据分析平台">
+                </div>
+                <h3>数据分析平台</h3>
+                <p>深入洞察数据，助力决策制定</p>
+                <a href="#data-analytics" class="btn btn-outline product-details-btn">了解更多</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="smart-home" class="product-details">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">智能家居系统</h2>
+        <div class="product-content" data-aos="fade-up" data-aos-delay="200">
+            <p>我们的智能家居系统为您打造舒适、高效的生活空间：</p>
+            <ul class="feature-list">
+                <li>智能照明控制</li>
+                <li>温度和湿度自动调节</li>
+                <li>安全监控系统</li>
+                <li>语音控制功能</li>
+                <li>能源使用优化</li>
+            </ul>
+            <div class="tech-stack">
+                <span class="tech-item">IoT</span>
+                <span class="tech-item">AI</span>
+                <span class="tech-item">云计算</span>
+                <span class="tech-item">移动应用</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="ai-assistant" class="product-details">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">AI助手</h2>
+        <div class="product-content" data-aos="fade-up" data-aos-delay="200">
+            <p>我们的AI助手是您的个人智能助理，帮助您提高工作效率：</p>
+            <ul class="feature-list">
+                <li>智能日程管理</li>
+                <li>自然语言交互</li>
+                <li>多语言支持</li>
+                <li>个性化推荐</li>
+                <li>跨平台同步</li>
+            </ul>
+            <div class="tech-stack">
+                <span class="tech-item">NLP</span>
+                <span class="tech-item">机器学习</span>
+                <span class="tech-item">云服务</span>
+                <span class="tech-item">移动应用</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="data-analytics" class="product-details">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">数据分析平台</h2>
+        <div class="product-content" data-aos="fade-up" data-aos-delay="200">
+            <p>我们的数据分析平台帮助您深入洞察数据，助力决策制定：</p>
+            <ul class="feature-list">
+                <li>实时数据处理</li>
+                <li>可视化报表生成</li>
+                <li>预测分析模型</li>
+                <li>多源数据整合</li>
+                <li>自定义分析工具</li>
+            </ul>
+            <div class="tech-stack">
+                <span class="tech-item">大数据</span>
+                <span class="tech-item">机器学习</span>
+                <span class="tech-item">数据可视化</span>
+                <span class="tech-item">云计算</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2 class="cta-title" data-aos="fade-up">准备好体验我们的产品了吗？</h2>
+        <p class="cta-description" data-aos="fade-up" data-aos-delay="200">立即开始您的智能科技之旅！</p>
+        <a href="{% url 'contact' %}" class="btn btn-cta" data-aos="fade-up" data-aos-delay="400">联系我们</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+<script src="{% static 'js/products.js' %}"></script>
+{% endblock %}

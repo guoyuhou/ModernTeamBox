@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}山东大学附属中学实验学校{% endblock %}</title>
+    <style>
+        /* 在这里添加全局CSS样式 */
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #6c757d;
+            --accent-color: #ffc107;
+        }
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        /* 添加更多全局样式... */
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        {% include "components/header.html" %}
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        {% include "components/footer.html" %}
+    </footer>
+
+    <script>
+        // 在这里添加全局JavaScript
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

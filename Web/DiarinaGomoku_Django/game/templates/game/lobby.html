@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .lobby-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 20px;
+    }
+
+    .lobby-section {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .lobby-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .online-players {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .online-players li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 5px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .online-players li:hover {
+        background-color: #f0f0f0;
+    }
+
+    .online-players .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #3498db;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        font-weight: bold;
+    }
+
+    .action-buttons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .action-button {
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    #random-match { background-color: #3498db; }
+    #create-room { background-color: #2ecc71; }
+    #ai-battle { background-color: #e74c3c; }
+
+    .action-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .game-rooms {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .game-room {
+        background: #f9f9f9;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .game-room:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .game-room.full {
+        opacity: 0.6;
+    }
+
+    .join-button {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .join-button:hover {
+        background-color: #2980b9;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="lobby-container">
+    <div class="lobby-section">
+        <h2>在线玩家</h2>
+        <ul id="online-players" class="online-players">
+            {% for user in online_users %}
+                <li>
+                    <div class="avatar">{{ user.username|first|upper }}</div>
+                    <span>{{ user.username }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="action-buttons">
+            <button id="random-match" class="action-button pulse">随机匹配</button>
+            <button id="create-room" class="action-button">创建房间</button>
+            <button id="ai-battle" class="action-button">对战人机</button>
+        </div>
+    </div>
+    <div class="lobby-section">
+        <h2>游戏房间</h2>
+        <div id="game-rooms" class="game-rooms">
+            {% for room in game_rooms %}
+                <div class="game-room {% if room.is_full %}full{% endif %}">
+                    <h3>房间 {{ room.id }}</h3>
+                    {% if room.is_full %}
+                        <p>已满</p>
+                    {% else %}
+                        <a href="{% url 'join_game' room.id %}" class="join-button">加入</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script>
+    // WebSocket 连接和消息处理
+    const lobbySocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/lobby/'
+    );
+
+    lobbySocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        if (data.type === 'online_users') {
+            updateOnlinePlayers(data.online_users);
+        } else if (data.type === 'new_room') {
+            addNewRoom(data.room);
+        } else if (data.type === 'room_closed') {
+            removeRoom(data.room_id);
+        }
+    };
+
+    function updateOnlinePlayers(onlineUsers) {
+        const onlinePlayersList = document.getElementById('online-players');
+        onlinePlayersList.innerHTML = '';
+        onlineUsers.forEach(user => {
+            if (user !== '{{ request.user.username }}') {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="avatar">${user[0].toUpperCase()}</div>
+                    <span>${user}</span>
+                `;
+                onlinePlayersList.appendChild(li);
+                gsap.from(li, {opacity: 0, y: 20, duration: 0.5, ease: "power2.out"});
+            }
+        });
+    }
+
+    function addNewRoom(room) {
+        const gameRooms = document.getElementById('game-rooms');
+        const newRoom = document.createElement('div');
+        newRoom.className = 'game-room';
+        newRoom.innerHTML = `
+            <h3>房间 ${room.id}</h3>
+            <a href="/game/${room.id}/" class="join-button">加入</a>
+        `;
+        gameRooms.appendChild(newRoom);
+        gsap.from(newRoom, {opacity: 0, scale: 0.8, duration: 0.5, ease: "back.out(1.7)"});
+    }
+
+    function removeRoom(roomId) {
+        const room = document.querySelector(`.game-room h3:contains('房间 ${roomId}')`).parentNode;
+        gsap.to(room, {opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in", onComplete: () => room.remove()});
+    }
+
+    // CSRF token 获取函数
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    // 按钮点击事件处理
+    document.getElementById('random-match').addEventListener('click', () => {
+        fetch('/game/random-match/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.game_id) {
+                window.location.href = `/game/${data.game_id}/`;
+            }
+        });
+    });
+
+    document.getElementById('create-room').addEventListener('click', () => {
+        fetch('/game/create-room/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.game_id) {
+                window.location.href = `/game/${data.game_id}/`;
+            }
+        });
+    });
+
+    document.getElementById('ai-battle').addEventListener('click', () => {
+        fetch('/game/ai-battle/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.game_id) {
+                window.location.href = `/game/${data.game_id}/`;
+            }
+        });
+    });
+
+    // 页面加载动画
+    document.addEventListener('DOMContentLoaded', () => {
+        gsap.from(".lobby-section", {
+            opacity: 0,
+            y: 50,
+            stagger: 0.2,
+            duration: 0.8,
+            ease: "power3.out"
+        });
+
+        gsap.from(".game-room", {
+            opacity: 0,
+            scale: 0.9,
+            stagger: 0.1,
+            duration: 0.5,
+            ease: "back.out(1.7)"
+        });
+    });
+</script>
+{% endblock %}

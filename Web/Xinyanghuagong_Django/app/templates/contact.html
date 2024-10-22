@@ -1,0 +1,352 @@
+{% extends 'base.html' %}
+
+{% block title %}联系我们{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-header {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 6rem 0;
+        text-align: center;
+    }
+    .contact-header h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        animation: fadeInDown 1s ease-out;
+    }
+    .contact-header p {
+        font-size: 1.5rem;
+        animation: fadeInUp 1s ease-out 0.5s both;
+    }
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-50px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(50px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .contact-content {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 5rem auto;
+        padding: 0 2rem;
+    }
+    .contact-form {
+        flex: 1;
+        margin-right: 4rem;
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .contact-info {
+        flex: 1;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #333;
+    }
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+        border-color: #4CAF50;
+        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        outline: none;
+    }
+    .form-group textarea {
+        height: 150px;
+        resize: vertical;
+    }
+    .submit-btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .submit-btn:hover {
+        background-color: #45a049;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .submit-btn:active {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .contact-method {
+        background: white;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s;
+    }
+    .contact-method:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .contact-method i {
+        font-size: 2rem;
+        margin-right: 1rem;
+        color: #4CAF50;
+    }
+    .contact-method-content {
+        display: flex;
+        align-items: center;
+    }
+    .contact-method-text {
+        display: flex;
+        flex-direction: column;
+    }
+    .contact-method-text strong {
+        font-size: 1.2rem;
+        margin-bottom: 0.25rem;
+    }
+    .messages {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 2rem;
+    }
+    .messages li {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+    .messages .success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    .messages .error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    .map-container {
+        margin-top: 3rem;
+        height: 400px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<section class="contact-header">
+    <h1>联系我们</h1>
+    <p>我们随时为您提供专业支持和解决方案</p>
+</section>
+
+<section class="contact-content">
+    <div class="contact-form">
+        <h2>发送消息</h2>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form action="{% url 'contact' %}" method="post" id="contactForm">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <ul class="error-list">
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="submit-btn">发送消息</button>
+        </form>
+    </div>
+    <div class="contact-info">
+        <h2>联系方式</h2>
+        <div class="contact-method">
+            <div class="contact-method-content">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="contact-method-text">
+                    <strong>公司地址</strong>
+                    <span>山东省济南市高新区科技园路1000号</span>
+                </div>
+            </div>
+        </div>
+        <div class="contact-method">
+            <div class="contact-method-content">
+                <i class="fas fa-phone"></i>
+                <div class="contact-method-text">
+                    <strong>联系电话</strong>
+                    <span>+86 531 12345678</span>
+                </div>
+            </div>
+        </div>
+        <div class="contact-method">
+            <div class="contact-method-content">
+                <i class="fas fa-envelope"></i>
+                <div class="contact-method-text">
+                    <strong>电子邮箱</strong>
+                    <span>info@xinyang-chem.com</span>
+                </div>
+            </div>
+        </div>
+        <div class="contact-method">
+            <div class="contact-method-content">
+                <i class="fas fa-clock"></i>
+                <div class="contact-method-text">
+                    <strong>工作时间</strong>
+                    <span>周一至周五 9:00-18:00</span>
+                </div>
+            </div>
+        </div>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3248.5844843285396!2d117.12942731525911!3d36.67584087997636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35c205cf8e2dd4af%3A0xf63a97f8f6b9f6e6!2z5bCP5rGf5Yy65LiK5rW36YGTMTAwMOWPt-enkeaKgOWbreot6auY5paw5Yy6!5e0!3m2!1szh-CN!2scn!4v1620811235683!5m2!1szh-CN!2scn" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 联系方式卡片动画
+    gsap.from('.contact-method', {
+        opacity: 0,
+        y: 50,
+        stagger: 0.2,
+        duration: 1,
+        scrollTrigger: {
+            trigger: '.contact-info',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+
+    // 表单动画
+    gsap.from('.contact-form', {
+        opacity: 0,
+        x: -50,
+        duration: 1,
+        scrollTrigger: {
+            trigger: '.contact-content',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+
+    // 地图动画
+    gsap.from('.map-container', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        scrollTrigger: {
+            trigger: '.map-container',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+
+    // 表单验证
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (validateForm()) {
+            this.submit();
+        }
+    });
+
+    function validateForm() {
+        let isValid = true;
+        const name = document.getElementById('id_name');
+        const email = document.getElementById('id_email');
+        const message = document.getElementById('id_message');
+
+        if (name.value.trim() === '') {
+            showError(name, '请输入您的姓名');
+            isValid = false;
+        } else {
+            removeError(name);
+        }
+
+        if (email.value.trim() === '') {
+            showError(email, '请输入您的邮箱地址');
+            isValid = false;
+        } else if (!isValidEmail(email.value)) {
+            showError(email, '请输入有效的邮箱地址');
+            isValid = false;
+        } else {
+            removeError(email);
+        }
+
+        if (message.value.trim() === '') {
+            showError(message, '请输入您的留言内容');
+            isValid = false;
+        } else {
+            removeError(message);
+        }
+
+        return isValid;
+    }
+
+    function showError(input, message) {
+        const formGroup = input.parentElement;
+        const errorElement = formGroup.querySelector('.error-message') || document.createElement('div');
+        errorElement.className = 'error-message';
+        errorElement.textContent = message;
+        if (!formGroup.querySelector('.error-message')) {
+            formGroup.appendChild(errorElement);
+        }
+        input.classList.add('error');
+    }
+
+    function removeError(input) {
+        const formGroup = input.parentElement;
+        const errorElement = formGroup.querySelector('.error-message');
+        if (errorElement) {
+            formGroup.removeChild(errorElement);
+        }
+        input.classList.remove('error');
+    }
+
+    function isValidEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+</script>
+{% endblock %}

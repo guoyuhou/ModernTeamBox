@@ -1,0 +1,204 @@
+<header class="masterpiece-header">
+    <div class="container header-container">
+        <a href="{% url 'index' %}" class="logo-link">
+            <img src="https://img.freepik.com/free-vector/gradient-school-logo-design-template_23-2149635379.jpg" alt="山大附中实验学校" class="logo-image">
+            <span class="logo-text">山大附中实验学校</span>
+        </a>
+        <nav class="main-navigation">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="{% url 'school_overview' %}" class="nav-link">学校概况</a></li>
+                <li class="nav-item"><a href="{% url 'teaching_research' %}" class="nav-link">教学科研</a></li>
+                <li class="nav-item"><a href="{% url 'teacher_growth' %}" class="nav-link">教师成长</a></li>
+                <li class="nav-item"><a href="{% url 'student_space' %}" class="nav-link">学生空间</a></li>
+                <li class="nav-item"><a href="{% url 'home_school_cooperation' %}" class="nav-link">家校合作</a></li>
+                <li class="nav-item"><a href="{% url 'teacher_development' %}" class="nav-link">教师发展</a></li>
+                <li class="nav-item"><a href="{% url 'party_building' %}" class="nav-link">党建之窗</a></li>
+                <li class="nav-item"><a href="{% url 'admission_info' %}" class="nav-link">招生信息</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <button class="search-toggle" aria-label="搜索">
+                <i class="icon-search"></i>
+            </button>
+            <button class="menu-toggle" aria-label="菜单">
+                <span class="menu-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<style>
+    .masterpiece-header {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+    }
+
+    .logo-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .logo-image {
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    .main-navigation {
+        flex-grow: 1;
+    }
+
+    .nav-list {
+        display: flex;
+        justify-content: center;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-item {
+        margin: 0 1rem;
+    }
+
+    .nav-link {
+        color: #333;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 0;
+        position: relative;
+        transition: color 0.3s ease;
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #0056b3;
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: #0056b3;
+    }
+
+    .nav-link:hover::after {
+        transform: scaleX(1);
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-toggle,
+    .menu-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+    .search-toggle:hover,
+    .menu-toggle:hover {
+        color: #0056b3;
+    }
+
+    .menu-icon {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: #333;
+        position: relative;
+        transition: background-color 0.3s ease;
+    }
+
+    .menu-icon::before,
+    .menu-icon::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #333;
+        transition: all 0.3s ease;
+    }
+
+    .menu-icon::before {
+        top: -8px;
+    }
+
+    .menu-icon::after {
+        bottom: -8px;
+    }
+
+    .menu-toggle:hover .menu-icon,
+    .menu-toggle:hover .menu-icon::before,
+    .menu-toggle:hover .menu-icon::after {
+        background-color: #0056b3;
+    }
+
+    @media (max-width: 1024px) {
+        .nav-list {
+            display: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .logo-text {
+            display: none;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const header = document.querySelector('.masterpiece-header');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navList = document.querySelector('.nav-list');
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.9)';
+                header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        menuToggle.addEventListener('click', function() {
+            navList.style.display = navList.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    });
+</script>

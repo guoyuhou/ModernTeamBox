@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 2rem;
+        border: 4px solid var(--primary-color);
+    }
+
+    .profile-info h2 {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .profile-info p {
+        font-size: 1.1rem;
+        color: var(--text-color);
+    }
+
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        font-size: 1rem;
+        opacity: 0.8;
+    }
+
+    .achievements-section {
+        margin-top: 3rem;
+    }
+
+    .achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .achievement {
+        text-align: center;
+        padding: 1rem;
+        background: #f0f0f0;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .achievement:hover {
+        transform: scale(1.05);
+        background: #e0e0e0;
+    }
+
+    .achievement i {
+        font-size: 2rem;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .recent-games {
+        margin-top: 3rem;
+    }
+
+    .game-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #f9f9f9;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .game-card:hover {
+        background: #f0f0f0;
+        transform: translateX(5px);
+    }
+
+    .game-result {
+        font-weight: bold;
+    }
+
+    .win { color: var(--secondary-color); }
+    .loss { color: var(--accent-color); }
+
+    @media (max-width: 768px) {
+        .profile-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="{% static 'images/default_avatar.png' %}" alt="{{ user.username }}" class="profile-avatar">
+        <div class="profile-info">
+            <h2>{{ user.username }}</h2>
+            <p>{{ user.email }}</p>
+        </div>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-value">{{ total_games }}</div>
+            <div class="stat-label">总场次</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ wins }}</div>
+            <div class="stat-label">胜利</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ losses }}</div>
+            <div class="stat-label">失败</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ win_rate }}%</div>
+            <div class="stat-label">胜率</div>
+        </div>
+    </div>
+
+    <div class="achievements-section">
+        <h3>成就</h3>
+        <div class="achievements-grid">
+            <div class="achievement">
+                <i class="fas fa-trophy"></i>
+                <p>五连胜</p>
+            </div>
+            <div class="achievement">
+                <i class="fas fa-chess-pawn"></i>
+                <p>100场对局</p>
+            </div>
+            <div class="achievement">
+                <i class="fas fa-star"></i>
+                <p>排行榜前10</p>
+            </div>
+            <!-- 添加更多成就 -->
+        </div>
+    </div>
+
+    <div class="recent-games">
+        <h3>最近对局</h3>
+        <div class="game-card">
+            <span>vs. 玩家A</span>
+            <span class="game-result win">胜利</span>
+        </div>
+        <div class="game-card">
+            <span>vs. 玩家B</span>
+            <span class="game-result loss">失败</span>
+        </div>
+        <div class="game-card">
+            <span>vs. AI</span>
+            <span class="game-result win">胜利</span>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 头像和用户信息动画
+        gsap.from(".profile-avatar", {
+            opacity: 0,
+            scale: 0.5,
+            duration: 1,
+            ease: "back.out(1.7)"
+        });
+
+        gsap.from(".profile-info", {
+            opacity: 0,
+            x: -50,
+            duration: 1,
+            delay: 0.3,
+            ease: "power3.out"
+        });
+
+        // 统计卡片动画
+        gsap.from(".stat-card", {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
+
+        // 成就动画
+        gsap.from(".achievement", {
+            opacity: 0,
+            scale: 0.8,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: "power2.out"
+        });
+
+        // 最近对局动画
+        gsap.from(".game-card", {
+            opacity: 0,
+            x: -50,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
+
+        // 统计数字增长动画
+        const statValues = document.querySelectorAll('.stat-value');
+        statValues.forEach(stat => {
+            const finalValue = parseInt(stat.textContent);
+            gsap.from(stat, {
+                textContent: 0,
+                duration: 2,
+                ease: "power2.out",
+                snap: { textContent: 1 },
+                stagger: {
+                    each: 0.2,
+                    onUpdate: function() {
+                        this.targets()[0].innerHTML = Math.ceil(this.targets()[0].textContent);
+                    },
+                }
+            });
+        });
+    });
+</script>
+{% endblock extra_js %}
