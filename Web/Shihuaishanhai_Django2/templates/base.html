@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}释怀山海民宿{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% block extra_css %}{% endblock %}
+
+    <!-- 添加新的 CSS -->
+    <style>
+        /* 重置默认样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 导航栏样式修改 */
+        .main-nav {
+            background: transparent; /* 移除蓝色背景 */
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-brand a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.8rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* 主要内容区域 */
+        main {
+            margin-top: 80px; /* 为固定导航栏留出空间 */
+            min-height: calc(100vh - 80px - 300px); /* 确保页面最小高度 */
+            padding: 2rem 5%;
+        }
+
+        /* 页脚样式 */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 5% 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #6dd5ed;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section p, 
+        .footer-section a {
+            color: #ecf0f1;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #6dd5ed;
+            transform: translateX(5px);
+        }
+
+        .footer-section i {
+            margin-right: 0.5rem;
+            color: #6dd5ed;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .nav-brand {
+                margin-bottom: 1rem;
+            }
+
+            .nav-links a {
+                margin: 0 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            main {
+                margin-top: 120px;
+            }
+        }
+
+        /* 滚动动画 */
+        .nav-scrolled {
+            background: rgba(0, 0, 0, 0.5); /* 改为半透明黑色 */
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <nav class="main-nav">
+            <div class="nav-brand">
+                <!-- 修改这里，从 'home' 改为 'main:index' -->
+                <a href="{% url 'main:index' %}">释怀山海民宿</a>
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'main:index' %}">首页</a>
+                <a href="{% url 'main:room_list' %}">房间</a>
+                <a href="{% url 'main:facilities' %}">设施服务</a>
+                <a href="{% url 'main:about' %}">关于我们</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 主要内容 -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p><i class="fas fa-phone"></i> 18663105866</p>
+                <p><i class="fas fa-map-marker-alt"></i> 北海旅游度假区孙家瞳街道环海路常春藤国际学校南100米</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <a href="{% url 'main:room_list' %}">房间预订</a>
+                <a href="{% url 'main:facilities' %}">设施服务</a>
+                <a href="{% url 'main:about' %}">关于我们</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 释怀山海民宿 版权所有</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+
+    <!-- 添加滚动监听脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('scroll', function() {
+                const nav = document.querySelector('.main-nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('nav-scrolled');
+                } else {
+                    nav.classList.remove('nav-scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

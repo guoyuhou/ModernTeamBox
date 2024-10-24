@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}房间列表 - 释怀山海民宿{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* 全局样式 */
+    body {
+        background: url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Noto Serif SC', 'PingFang SC', sans-serif;
+        color: #ffffff;
+    }
+
+    .content-wrapper::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.5) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            rgba(0, 0, 0, 0.5) 100%
+        );
+        z-index: 1;
+    }
+
+    /* 页面布局 */
+    .rooms-container {
+        display: flex;
+        gap: 2rem;
+        padding: 2rem 5%;
+        position: relative;
+        z-index: 2;
+        margin-top: 80px;
+    }
+
+    /* 筛选侧边栏样式修改 */
+    .filters-sidebar {
+        flex: 0 0 280px;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 2rem;
+        border-radius: 15px;
+        height: fit-content;
+        position: sticky;
+        top: 100px;
+    }
+
+    .filter-section {
+        margin-bottom: 2rem;
+    }
+
+    .filter-title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: #ffffff;
+        font-weight: 500;
+    }
+
+    /* 复选框标签样式 */
+    .checkbox-group label {
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+    }
+
+    .checkbox-group label:hover {
+        opacity: 0.8;
+    }
+
+    /* 价格范围文字 */
+    .price-values {
+        color: #ffffff;
+        font-size: 0.95rem;
+        text-align: center;
+    }
+
+    /* 复选框美化 */
+    .checkbox-group input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: #e67e22;
+    }
+
+    /* 房间列表 */
+    .rooms-grid {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 2rem;
+    }
+
+    .room-card {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.4s ease;
+        animation: fadeIn 0.8s ease backwards;
+    }
+
+    .room-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .room-image {
+        height: 250px;
+        overflow: hidden;
+    }
+
+    .room-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .room-card:hover .room-image img {
+        transform: scale(1.1);
+    }
+
+    .room-info {
+        padding: 2rem;
+    }
+
+    .room-name {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #ffffff;
+    }
+
+    .room-price {
+        font-size: 1.3rem;
+        color: #e67e22;
+        margin-bottom: 1rem;
+    }
+
+    .room-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        margin: 1rem 0;
+    }
+
+    .feature-tag {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+
+    .book-now-btn {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background: #e67e22;
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+
+    .book-now-btn:hover {
+        background: #d35400;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
+    }
+
+    /* 动画效果 */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 1024px) {
+        .rooms-container {
+            flex-direction: column;
+        }
+
+        .filters-sidebar {
+            position: static;
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="rooms-container">
+    <!-- 筛选侧边栏 -->
+    <aside class="filters-sidebar">
+        <div class="filter-section">
+            <h3 class="filter-title">价格范围</h3>
+            <div class="price-range">
+                <input type="range" class="price-slider" min="300" max="600" step="50">
+                <div class="price-values">
+                    <span>¥300</span> - <span>¥600</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <h3 class="filter-title">床型选择</h3>
+            <div class="checkbox-group">
+                <label><input type="checkbox" value="king"> 大床房</label>
+                <label><input type="checkbox" value="twin"> 双床房</label>
+                <label><input type="checkbox" value="family"> 家庭房</label>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <h3 class="filter-title">其他选项</h3>
+            <div class="checkbox-group">
+                <label><input type="checkbox" value="smoking"> 可吸烟</label>
+                <label><input type="checkbox" value="seaview"> 海景房</label>
+                <label><input type="checkbox" value="wifi"> 免费WiFi</label>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 房间列表 -->
+    <div class="rooms-grid">
+        {% for room in rooms %}
+        <div class="room-card">
+            <div class="room-image">
+                <img src="{{ room.image.url }}" alt="{{ room.name }}">
+            </div>
+            <div class="room-info">
+                <h3 class="room-name">{{ room.name }}</h3>
+                <div class="room-price">¥{{ room.price }}/晚</div>
+                <p>{{ room.description }}</p>
+                <div class="room-features">
+                    {% for feature in room.features.all %}
+                    <span class="feature-tag">{{ feature.name }}</span>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'main:room_detail' room.pk %}" class="book-now-btn">立即预订</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 价格滑块交互
+    const priceSlider = document.querySelector('.price-slider');
+    const priceValues = document.querySelector('.price-values');
+    
+    priceSlider.addEventListener('input', function() {
+        updatePriceRange(this.value);
+    });
+
+    function updatePriceRange(value) {
+        const minPrice = 300;
+        priceValues.innerHTML = `<span>¥${minPrice}</span> - <span>¥${value}</span>`;
+    }
+
+    // 筛选功能
+    const filterInputs = document.querySelectorAll('input[type="checkbox"], input[type="range"]');
+    filterInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            filterRooms();
+        });
+    });
+
+    function filterRooms() {
+        const roomCards = document.querySelectorAll('.room-card');
+        // 实现筛选逻辑
+        roomCards.forEach(card => {
+            card.style.animation = 'fadeIn 0.5s ease forwards';
+        });
+    }
+
+    // 初始化动画
+    const roomCards = document.querySelectorAll('.room-card');
+    roomCards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+    });
+});
+</script>
+{% endblock %}

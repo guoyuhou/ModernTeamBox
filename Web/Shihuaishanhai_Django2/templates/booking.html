@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}预订房间 - 释怀山海民宿{% endblock %}
+
+{% block content %}
+<div class="booking-container">
+    <!-- 预订进度条 -->
+    <div class="booking-progress">
+        <div class="progress-step active">
+            <span class="step-number">1</span>
+            <span class="step-text">填写信息</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step">
+            <span class="step-number">2</span>
+            <span class="step-text">确认预订</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step">
+            <span class="step-number">3</span>
+            <span class="step-text">预订成功</span>
+        </div>
+    </div>
+
+    <!-- 预订表单 -->
+    <div class="booking-form-container">
+        <div class="room-summary">
+            <div class="room-image">
+                <img src="{{ room.image.url }}" alt="{{ room.name }}">
+            </div>
+            <div class="room-info">
+                <h2>{{ room.name }}</h2>
+                <div class="room-features">
+                    <span><i class="fas fa-bed"></i> {{ room.bed_type }}</span>
+                    <span><i class="fas fa-expand-arrows-alt"></i> {{ room.area }}</span>
+                    <span><i class="fas fa-user-friends"></i> 最多{{ room.max_guests }}人</span>
+                </div>
+                <div class="room-price">
+                    <span class="price">¥{{ room.price }}</span>
+                    <span class="unit">/晚</span>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" class="booking-form">
+            {% csrf_token %}
+            
+            <div class="form-section">
+                <h3>预订信息</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="check_in">入住日期 <span class="required">*</span></label>
+                        <input type="date" id="check_in" name="check_in" required>
+                        <small>入住时间：14:00后</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="check_out">离店日期 <span class="required">*</span></label>
+                        <input type="date" id="check_out" name="check_out" required>
+                        <small>退房时间：12:00前</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>入住人信息</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="guest_name">姓名 <span class="required">*</span></label>
+                        <input type="text" id="guest_name" name="guest_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">手机号码 <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{11}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="special_requests">特殊要求</label>
+                    <textarea id="special_requests" name="special_requests" rows="3" placeholder="如有特殊要求请在此说明"></textarea>
+                </div>
+            </div>
+
+            <div class="booking-summary">
+                <h3>费用明细</h3>
+                <div class="summary-items">
+                    <div class="summary-item">
+                        <span>房费</span>
+                        <span class="room-total">¥{{ room.price }}</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>总计</span>
+                        <span class="total-price">¥{{ room.price }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-policy">
+                <h3>预订须知</h3>
+                <ul>
+                    <li>入住时间为14:00后，退房时间为12:00前</li>
+                    <li>请携带有效身份证件办理入住</li>
+                    <li>如需提前入住或延迟退房，请提前与前台联系</li>
+                    <li>允许携带宠物，不收取额外费用</li>
+                </ul>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">确认预订</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .booking-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .booking-progress {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 3rem;
+    }
+
+    .progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .step-number {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .progress-step.active .step-number {
+        background: #3498db;
+        color: white;
+    }
+
+    .progress-line {
+        flex: 1;
+        height: 2px;
+        background: #e9ecef;
+        margin: 0 1rem;
+    }
+
+    .room-summary {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 2rem;
+        padding: 1.5rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+
+    .room-image img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .form-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+    }
+
+    .required {
+        color: #e74c3c;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .booking-summary {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+
+    .summary-items {
+        margin-top: 1rem;
+    }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+    .total {
+        border-top: 1px solid #ddd;
+        padding-top: 1rem;
+        font-weight: bold;
+    }
+
+    .btn-submit {
+        background: #3498db;
+        color: white;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        width: 100%;
+        transition: background 0.3s;
+    }
+
+    .btn-submit:hover {
+        background: #2980b9;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .room-summary {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 日期选择限制
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('check_in').min = today;
+        
+        document.getElementById('check_in').addEventListener('change', function() {
+            document.getElementById('check_out').min = this.value;
+        });
+
+        // 计算总价
+        function calculateTotal() {
+            const checkIn = new Date(document.getElementById('check_in').value);
+            const checkOut = new Date(document.getElementById('check_out').value);
+            const pricePerNight = {{ room.price }};
+            
+            if (checkIn && checkOut) {
+                const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+                const total = nights * pricePerNight;
+                document.querySelector('.total-price').textContent = `¥${total}`;
+                document.querySelector('.room-total').textContent = `¥${total}`;
+            }
+        }
+
+        document.getElementById('check_in').addEventListener('change', calculateTotal);
+        document.getElementById('check_out').addEventListener('change', calculateTotal);
+    });
+</script>
+{% endblock %}
+

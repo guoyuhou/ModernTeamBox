@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}预订成功 - 释怀山海民宿{% endblock %}
+
+{% block content %}
+<div class="success-container">
+    <!-- 预订进度条 -->
+    <div class="booking-progress">
+        <div class="progress-step completed">
+            <span class="step-number"><i class="fas fa-check"></i></span>
+            <span class="step-text">填写信息</span>
+        </div>
+        <div class="progress-line completed"></div>
+        <div class="progress-step completed">
+            <span class="step-number"><i class="fas fa-check"></i></span>
+            <span class="step-text">确认预订</span>
+        </div>
+        <div class="progress-line completed"></div>
+        <div class="progress-step active">
+            <span class="step-number"><i class="fas fa-check"></i></span>
+            <span class="step-text">预订成功</span>
+        </div>
+    </div>
+
+    <!-- 成功信息 -->
+    <div class="success-message">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h1>预订成功！</h1>
+        <p>您的订已经确认，我们期待您的到来</p>
+    </div>
+
+    <!-- 预订详情 -->
+    <div class="booking-details">
+        <h2>预订信息</h2>
+        <div class="details-grid">
+            <div class="detail-section">
+                <h3>房间信息</h3>
+                <div class="detail-content">
+                    {% if booking %}
+                        <p><strong>房型：</strong>{{ booking.room.name }}</p>
+                        <p><strong>房费：</strong>¥{{ booking.total_price }}</p>
+                        <p><strong>入住日期：</strong>{{ booking.check_in|date:"Y年m月d日" }}</p>
+                        <p><strong>离店日期：</strong>{{ booking.check_out|date:"Y年m月d日" }}</p>
+                    {% else %}
+                        <p><strong>房型：</strong>{{ room.name }}</p>
+                        <p><strong>房费：</strong>¥{{ room.price }}</p>
+                        <p><strong>入住日期：</strong>{{ check_in|date:"Y年m月d日" }}</p>
+                        <p><strong>离店日期：</strong>{{ check_out|date:"Y年m月d日" }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h3>入住人信息</h3>
+                <div class="detail-content">
+                    {% if booking %}
+                        <p><strong>姓名：</strong>{{ booking.guest_name }}</p>
+                        <p><strong>电话：</strong>{{ booking.phone }}</p>
+                        {% if booking.special_requests %}
+                            <p><strong>特殊要求：</strong>{{ booking.special_requests }}</p>
+                        {% endif %}
+                    {% else %}
+                        <p><strong>姓名：</strong>{{ guest_name }}</p>
+                        <p><strong>电话：</strong>{{ phone }}</p>
+                        {% if special_requests %}
+                            <p><strong>特殊要求：</strong>{{ special_requests }}</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- 入住提醒 -->
+        <div class="reminder-section">
+            <h3>入住提醒</h3>
+            <div class="reminders">
+                <div class="reminder-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>入住时间</h4>
+                        <p>14:00后可办理入住，12:00前需要退房</p>
+                    </div>
+                </div>
+                <div class="reminder-item">
+                    <i class="fas fa-id-card"></i>
+                    <div>
+                        <h4>入住须知</h4>
+                        <p>请携带有效身份证件办理入住</p>
+                    </div>
+                </div>
+                <div class="reminder-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <h4>联系方式</h4>
+                        <p>如有问题请拨打：18663105866</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 交通信息 -->
+        <div class="location-section">
+            <h3>位置信息</h3>
+            <div class="location-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <p>北海旅游度假区孙家瞳街道环海路常春藤国际学校南100米</p>
+            </div>
+            <div id="map" class="location-map"></div>
+        </div>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="action-buttons">
+        <a href="{% url 'main:index' %}" class="btn-home">返回首页</a>
+        <a href="#" class="btn-print" onclick="window.print()">打印预订信息</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .success-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .success-message {
+        text-align: center;
+        margin: 3rem 0;
+    }
+
+    .success-icon {
+        font-size: 5rem;
+        color: #2ecc71;
+        margin-bottom: 1rem;
+        animation: scale-up 0.5s ease-out;
+    }
+
+    @keyframes scale-up {
+        0% { transform: scale(0); }
+        70% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+
+    .booking-details {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .detail-section {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+    }
+
+    .reminder-section {
+        margin-top: 2rem;
+    }
+
+    .reminders {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .reminder-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .reminder-item i {
+        font-size: 1.5rem;
+        color: #3498db;
+    }
+
+    .location-map {
+        height: 300px;
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .btn-home, .btn-print {
+        padding: 1rem 2rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+
+    .btn-home {
+        background: #3498db;
+        color: white;
+    }
+
+    .btn-print {
+        background: #f8f9fa;
+        color: #2c3e50;
+    }
+
+    .btn-home:hover {
+        background: #2980b9;
+    }
+
+    .btn-print:hover {
+        background: #e9ecef;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .details-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn-home, .btn-print {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    /* 打印样式 */
+    @media print {
+        .booking-progress,
+        .action-buttons,
+        .location-map {
+            display: none;
+        }
+
+        .success-container {
+            margin: 0;
+            padding: 0;
+        }
+
+        .booking-details {
+            box-shadow: none;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=your-key"></script>
+<script>
+    // 初始化地图
+    var map = new AMap.Map('map', {
+        zoom: 15,
+        center: [122.116394, 37.509691]
+    });
+    
+    var marker = new AMap.Marker({
+        position: [122.116394, 37.509691],
+        title: '释怀山海民宿'
+    });
+    
+    map.add(marker);
+</script>
+{% endblock %}
