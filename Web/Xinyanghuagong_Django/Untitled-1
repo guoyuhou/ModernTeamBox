@@ -1,0 +1,72 @@
+import random
+
+class 扫雷游戏:
+    def __init__(self, 行数, 列数, 地雷数):
+        self.行数 = 行数
+        self.列数 = 列数
+        self.地雷数 = 地雷数
+        self.棋盘 = [[0 for _ in range(列数)] for _ in range(行数)]
+        self.已揭示 = [[False for _ in range(列数)] for _ in range(行数)]
+        self.放置地雷()
+        self.计算周围地雷数()
+
+    def 放置地雷(self):
+        已放置 = 0
+        while 已放置 < self.地雷数:
+            行 = random.randint(0, self.行数 - 1)
+            列 = random.randint(0, self.列数 - 1)
+            if self.棋盘[行][列] != -1:
+                self.棋盘[行][列] = -1
+                已放置 += 1
+
+    def 计算周围地雷数(self):
+        for 行 in range(self.行数):
+            for 列 in range(self.列数):
+                if self.棋盘[行][列] != -1:
+                    self.棋盘[行][列] = self.计算邻近地雷(行, 列)
+
+    def 计算邻近地雷(self, 行, 列):
+        计数 = 0
+        for i in range(max(0, 行-1), min(self.行数, 行+2)):
+            for j in range(max(0, 列-1), min(self.列数, 列+2)):
+                if self.棋盘[i][j] == -1:
+                    计数 += 1
+        return 计数
+
+    def 揭示(self, 行, 列):
+        if not self.已揭示[行][列]:
+            self.已揭示[行][列] = True
+            if self.棋盘[行][列] == -1:
+                return False  # 游戏结束
+            elif self.棋盘[行][列] == 0:
+                for i in range(max(0, 行-1), min(self.行数, 行+2)):
+                    for j in range(max(0, 列-1), min(self.列数, 列+2)):
+                        self.揭示(i, j)
+        return True
+
+    def 打印棋盘(self):
+        for 行 in range(self.行数):
+            for 列 in range(self.列数):
+                if self.已揭示[行][列]:
+                    print(f" {self.棋盘[行][列] if self.棋盘[行][列] != -1 else '*'} ", end="")
+                else:
+                    print(" - ", end="")
+            print()
+
+# 使用示例
+游戏 = 扫雷游戏(8, 8, 10)
+游戏进行中 = True
+
+while 游戏进行中:
+    游戏.打印棋盘()
+    行 = int(input("输入行号: "))
+    列 = int(input("输入列号: "))
+    if not 游戏.揭示(行, 列):
+        print("踩到地雷了!游戏结束!")
+        游戏进行中 = False
+    elif all(all(cell for cell in row) for row in 游戏.已揭示):
+        print("恭喜你赢了!")
+        游戏进行中 = False
+
+游戏.打印棋盘()
+
