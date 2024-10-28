@@ -11,9 +11,9 @@ That means we are building a great team, a great project, and finally a great co
 
 
 2024.10.28 
-    This is a day that our team members first joined the repository.
-    That means we could really work together on this repository.
-    I'm so happy to see that.
-    Let's make something big and amazing together!
-    ——**Cynthia**
+    This is a day that our team members first joined the repository.  
+    That means we could really work together on this repository.  
+    I'm so happy to see that.  
+    Let's make something big and amazing together!  
+    ——**Cynthia**  
     
