@@ -1,0 +1,56 @@
+[
+    {
+        "model": "main.facility",
+        "pk": 1,
+        "fields": {
+            "name": "免费WiFi",
+            "category": "basic",
+            "icon": "fa-wifi"
+        }
+    },
+    {
+        "model": "main.facility",
+        "pk": 2,
+        "fields": {
+            "name": "空调",
+            "category": "basic",
+            "icon": "fa-snowflake"
+        }
+    },
+    {
+        "model": "main.room",
+        "pk": 1,
+        "fields": {
+            "name": "远望豪华大床房",
+            "bed_type": "大床1.8米",
+            "area": "35-40平米",
+            "floor": 1,
+            "window": true,
+            "max_guests": 2,
+            "price": "501.00",
+            "description": "海景房，视野开阔...",
+            "smoking": true,
+            "created_at": "2024-01-01T00:00:00Z",
+            "updated_at": "2024-01-01T00:00:00Z",
+            "facilities": [1, 2]
+        }
+    },
+    {
+        "model": "main.room",
+        "pk": 2,
+        "fields": {
+            "name": "港湾豪华大床房",
+            "bed_type": "大床1.8米",
+            "area": "35-40平米",
+            "floor": 1,
+            "window": true,
+            "max_guests": 2,
+            "price": "347.00",
+            "description": "温馨舒适...",
+            "smoking": true,
+            "created_at": "2024-01-01T00:00:00Z",
+            "updated_at": "2024-01-01T00:00:00Z",
+            "facilities": [1, 2]
+        }
+    }
+]

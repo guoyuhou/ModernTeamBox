@@ -1,0 +1,364 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ room.name }} - 释怀山海民宿{% endblock %}
+
+{% block content %}
+<div class="room-detail-container">
+    <!-- 房间图片展示区 -->
+    <section class="room-gallery">
+        <div class="main-image">
+            {% if room.image %}
+            <img src="{{ room.image.url }}" alt="{{ room.name }}" id="mainImage">
+            {% else %}
+            <img src="{% static 'images/default-room.jpg' %}" alt="默认房间图片">
+            {% endif %}
+        </div>
+        
+        <div class="thumbnail-list">
+            <!-- 后续可以添加多图片功能 -->
+        </div>
+    </section>
+
+    <!-- 房间信息区 -->
+    <section class="room-info-container">
+        <div class="room-header">
+            <div class="room-title">
+                <h1 style="color: #ffffff;">{{ room.name }}</h1>
+                <div class="room-tags">
+                    {% if room.window %}
+                    <span class="tag" style="color: #ffffff;"><i class="fas fa-window-maximize"></i> 有窗</span>
+                    {% endif %}
+                    {% if room.smoking %}
+                    <span class="tag" style="color: #ffffff;"><i class="fas fa-smoking"></i> 可吸烟</span>
+                    {% endif %}
+                    <span class="tag" style="color: #ffffff;"><i class="fas fa-wifi"></i> 免费WiFi</span>
+                </div>
+            </div>
+            <div class="room-price">
+                <span class="price-amount" style="color: #ffffff;">¥{{ room.price }}</span>
+                <span class="price-unit" style="color: #ffffff;">/晚</span>
+            </div>
+        </div>
+
+        <!-- 基本信息 -->
+        <div class="info-section">
+            <h2 style="color: #ffffff;">房间信息</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <i class="fas fa-bed" style="color: #ffffff;"></i>
+                    <span style="color: #ffffff;">{{ room.bed_type }}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-expand-arrows-alt" style="color: #ffffff;"></i>
+                    <span style="color: #ffffff;">{{ room.area }}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-building" style="color: #ffffff;"></i>
+                    <span style="color: #ffffff;">{{ room.floor }}层</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-user-friends" style="color: #ffffff;"></i>
+                    <span style="color: #ffffff;">最多{{ room.max_guests }}人</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设施列表 -->
+        <div class="facilities-section">
+            <h2 style="color: #ffffff;">房间设施</h2>
+            <div class="facilities-grid">
+                {% for facility in room.facilities.all %}
+                <div class="facility-item">
+                    <i class="{{ facility.icon }}" style="color: #ffffff;"></i>
+                    <span style="color: #ffffff;">{{ facility.name }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 预订表单 -->
+        <div class="booking-section">
+            <h2 style="color: #ffffff;">预订信息</h2>
+            <form action="{% url 'main:booking' room.pk %}" method="post" class="booking-form">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="check_in" style="color: #ffffff;">入住日期</label>
+                        <input type="date" id="check_in" name="check_in" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="check_out" style="color: #ffffff;">离店日期</label>
+                        <input type="date" id="check_out" name="check_out" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="guest_name" style="color: #ffffff;">入住人姓名</label>
+                        <input type="text" id="guest_name" name="guest_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" style="color: #ffffff;">联系电话</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-book">立即预订</button>
+            </form>
+        </div>
+
+        <!-- 房间政策 -->
+        <div class="policy-section">
+            <h2 style="color: #ffffff;">入住政策</h2>
+            <ul class="policy-list">
+                <li style="color: #ffffff;"><i class="fas fa-clock"></i> 入住时间：14:00后</li>
+                <li style="color: #ffffff;"><i class="fas fa-clock"></i> 退房时间：12:00前</li>
+                <li style="color: #ffffff;"><i class="fas fa-smoking-ban"></i> 房间禁止吸烟</li>
+                <li style="color: #ffffff;"><i class="fas fa-paw"></i> 允许携带宠物</li>
+            </ul>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* 全局样式 */
+    body {
+        background: url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Noto Serif SC', 'PingFang SC', sans-serif;
+        color: #ffffff;
+    }
+
+    .content-wrapper::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.5) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            rgba(0, 0, 0, 0.5) 100%
+        );
+        z-index: 1;
+    }
+
+    /* 房间详情容器 */
+    .room-detail-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* 图片展示区 */
+    .room-gallery {
+        margin-bottom: 3rem;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .main-image {
+        position: relative;
+        height: 500px;
+        overflow: hidden;
+    }
+
+    .main-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .main-image:hover img {
+        transform: scale(1.05);
+    }
+
+    /* 房间信息区域 */
+    .room-info-container {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+
+    .room-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .room-title h1 {
+        font-size: 2.5rem;
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+
+    .room-tags {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .tag {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .room-price {
+        text-align: right;
+    }
+
+    .price-amount {
+        font-size: 2.5rem;
+        color: #e67e22;
+        font-weight: bold;
+    }
+
+    .price-unit {
+        color: #ffffff;
+        font-size: 1.2rem;
+    }
+
+    /* 信息网格 */
+    .info-section {
+        margin: 2rem 0;
+    }
+
+    .info-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        color: #ffffff;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+    }
+
+    .info-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .info-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .info-item i {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #e67e22;
+    }
+
+    /* 预订表单 */
+    .booking-section {
+        background: rgba(0, 0, 0, 0.4);
+        padding: 2rem;
+        border-radius: 15px;
+        margin: 3rem 0;
+    }
+
+    .booking-form {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #ffffff;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #e67e22;
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-book {
+        background: #e67e22;
+        color: white;
+        padding: 1.2rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-book:hover {
+        background: #d35400;
+        transform: translateY(-3px);
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .room-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .room-tags {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .info-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 日期选择限制
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('check_in').min = today;
+        
+        document.getElementById('check_in').addEventListener('change', function() {
+            document.getElementById('check_out').min = this.value;
+        });
+    });
+</script>
+{% endblock %}

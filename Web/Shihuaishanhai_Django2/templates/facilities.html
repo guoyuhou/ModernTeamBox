@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}设施服务 - 释怀山海民宿{% endblock %}
+
+{% block content %}
+<div class="facilities-container">
+    <!-- 页面标题 -->
+    <div class="page-header">
+        <h1 style="color: #ffffff;">设施与服务</h1>
+        <p class="subtitle" style="color: #ffffff;">为您提供舒适便利的住宿体验</p>
+    </div>
+
+    <!-- 设施分类展示 -->
+    <div class="facilities-sections">
+        <!-- 基础设施 -->
+        <section class="facility-section">
+            <h2 style="color: #ffffff;"><i class="fas fa-home"></i> 基础设施</h2>
+            <div class="facility-grid">
+                <div class="facility-card">
+                    <div class="facility-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <div class="facility-info">
+                        <h3>免费WiFi</h3>
+                        <p>公共区域及房间内全覆盖</p>
+                    </div>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-icon">
+                        <i class="fas fa-parking"></i>
+                    </div>
+                    <div class="facility-info">
+                        <h3>免费停车场</h3>
+                        <p>共10个车位，步行100米可达</p>
+                    </div>
+                </div>
+                <!-- 其他基础设施 -->
+            </div>
+        </section>
+
+        <!-- 服务设施 -->
+        <section class="facility-section">
+            <h2 style="color: #ffffff;"><i class="fas fa-concierge-bell"></i> 服务设施</h2>
+            <div class="facility-grid">
+                <div class="facility-card">
+                    <div class="facility-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="facility-info">
+                        <h3>前台服务</h3>
+                        <p>服务时间：8:30-10:30</p>
+                    </div>
+                </div>
+                <!-- 其他服务设施 -->
+            </div>
+        </section>
+
+        <!-- 政策说明 -->
+        <section class="policy-section">
+            <h2 style="color: #ffffff;"><i class="fas fa-info-circle"></i> 入住政策</h2>
+            <div class="policy-grid">
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                    <div class="policy-info">
+                        <h3>宠物政策</h3>
+                        <p>允许携带宠物入住</p>
+                    </div>
+                </div>
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-glass-cheers"></i>
+                    </div>
+                    <div class="policy-info">
+                        <h3>活动政策</h3>
+                        <p>可举办派对/活动</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* 全局样式 */
+    body {
+        background: url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Noto Serif SC', 'PingFang SC', sans-serif;
+    }
+
+    .content-wrapper::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.5) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            rgba(0, 0, 0, 0.5) 100%
+        );
+        z-index: 1;
+    }
+
+    .facilities-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .facility-section {
+        margin-bottom: 4rem;
+    }
+
+    .facility-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+
+    .facility-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .facility-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .facility-icon {
+        font-size: 2.5rem;
+        color: #ffffff;
+        margin-right: 1.5rem;
+    }
+
+    .facility-info h3 {
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+    }
+
+    .facility-info p {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .policy-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .policy-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        transition: transform 0.3s ease;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .policy-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .policy-icon {
+        font-size: 3rem;
+        color: #ffffff;
+        margin-bottom: 1.5rem;
+    }
+
+    .policy-info h3 {
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+
+    .policy-info p {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    @media (max-width: 768px) {
+        .facilities-container {
+            padding: 2rem 1rem;
+        }
+        
+        .facility-grid,
+        .policy-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
